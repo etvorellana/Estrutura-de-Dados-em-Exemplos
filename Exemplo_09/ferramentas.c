@@ -35,18 +35,18 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 {	
-	int min = 0, max = tam, i;
-	while (min != max)	{
-		i = (max + min) / 2;
-		if (lista[i].numMatricula < chave)
-			min = ++i;
+	if (tam == 0)
+		return 0;
+	else{
+		int i = tam/2;
+		if(lista[i].numMatricula < chave)
+			return i + buscaLisAlunoOrd(&lista[i], tam -  i, chave);
 		else
-			if (lista[i].numMatricula > chave)
-				max = i;
-			else			
+			if(lista[i].numMatricula > chave)
+				return buscaLisAlunoOrd(lista, i, chave);
+			else
 				return i;
 	}
-	return i;
 }
 
 /*

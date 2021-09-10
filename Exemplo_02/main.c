@@ -21,7 +21,7 @@ int main(void)
         que podem ser aramzenados na lista. Pode ser entendido como
         o tamanho do array
     */
-    tamLista = LSIZE;
+    capLista = LSIZE;
     /* tamLista - Tamanho da lista
         * tamLista == 0: Lista vazia
         * tamLista == capLista: Lista cheia

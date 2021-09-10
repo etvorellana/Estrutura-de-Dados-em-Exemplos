@@ -23,7 +23,6 @@ saída:
 	Caso a chave não pertença a nenhum dos elementos da lista a 
 	função retorna tam;
 */
-
 int buscaLisAluno(TAluno lista[], int tam, int chave)
 {
 	int i = 0;
@@ -35,19 +34,13 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 {	
-	int min = 0, max = tam, i;
-	while (min != max)	{
-		i = (max + min) / 2;
-		if (lista[i].numMatricula < chave)
-			min = ++i;
-		else
-			if (lista[i].numMatricula > chave)
-				max = i;
-			else			
-				return i;
+	int i = 0;
+	while (lista[i].numMatricula < chave){
+		i++;
 	}
 	return i;
 }
+
 
 /*
 Implementa a inclusão numa lista linear de alocação sequencial
@@ -98,8 +91,14 @@ void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 {   
+    lista[*tam].numMatricula = aluno.numMatricula;
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
-	if(lista[pos].numMatricula != aluno.numMatricula){
+	if ( pos == *tam){
+        strcpy(lista[*tam].nome, aluno.nome);
+	    strcpy(lista[*tam].email, aluno.email);
+        *tam += 1;
+        return TRUE;
+	}else if(lista[pos].numMatricula != aluno.numMatricula){
 		for(int i = pos; i < *tam; i++){
 			trocaAluno(&lista[i], &aluno);
 		}

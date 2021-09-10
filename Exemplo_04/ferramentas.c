@@ -10,11 +10,9 @@ do tipo TAluno. Nesta função se trabalha com uma lista
 definida como um array de forma estática. 
 Entrada:
 - lista: Uma lista sequencial estática na forma de uma referência 
-	um array de tipo tAluno. Nesta implementação se assume que a chave
-    procurada foi copiada no final da lista;
+	um array de tipo tAluno.
 - tam: Tamanho da lista, ou seja os índices dos elementos da lista
-	vão de 0 até tam-1. A chave procurada deve ter sido copiada para
-    o elemento de índice tam, que não pertence à lista; 
+	vão de 0 até tam-1; 
 - chave: Número de matrícula do aluno que está sendo procurado. 
 	Para evitar ambiguidades, supõe-se que todas as chaves são
 	distintas;
@@ -23,30 +21,16 @@ saída:
 	Caso a chave não pertença a nenhum dos elementos da lista a 
 	função retorna tam;
 */
-
 int buscaLisAluno(TAluno lista[], int tam, int chave)
 {
 	int i = 0;
-	while (lista[i].numMatricula != chave){
+	while (i < tam)
+	{
+		if (lista[i].numMatricula == chave)
+			return i;
 		i++;
 	}
-	return i;
-}
-
-int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
-{	
-	int min = 0, max = tam, i;
-	while (min != max)	{
-		i = (max + min) / 2;
-		if (lista[i].numMatricula < chave)
-			min = ++i;
-		else
-			if (lista[i].numMatricula > chave)
-				max = i;
-			else			
-				return i;
-	}
-	return i;
+	return tam; //não achou, retorna n
 }
 
 /*
@@ -58,9 +42,7 @@ Entrada:
 - aluno: Variável de tipo TAluno com as informações do elemnto
     que se deseja incluir na lista;
 - lista: Uma lista sequencial estática na forma de uma referência 
-	um array de tipo tAluno. O array permite aloca um elementro a 
-    mais do que a capacidade da lista para permitir um algorítmo de
-    busca mais eficiente; 
+	um array de tipo tAluno;
 - tam: Tamanho da lista, ou seja os índices dos elementos da lista
 	vão de 0 até tam-1; 
 saída:
@@ -70,40 +52,12 @@ saída:
     atributo chave
 */
 int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
-{   
-    lista[*tam].numMatricula = aluno.numMatricula;
-	if (buscaLisAluno(lista, *tam, aluno.numMatricula) == *tam){
-        strcpy(lista[*tam].nome, aluno.nome);
-	    strcpy(lista[*tam].email, aluno.email);
-        *tam += 1;
-        return TRUE;
-	}
-    return FALSE;
-}
-
-void trocaAluno(TAluno *alunoA, TAluno *alunoB){
-	TAluno troca;
-	troca.numMatricula = alunoA->numMatricula;
-	strcpy(troca.nome, alunoA->nome);
-	strcpy(troca.email, alunoA->email);
-
-	alunoA->numMatricula = alunoB->numMatricula;
-	strcpy(alunoA->nome, alunoB->nome);
-	strcpy(alunoA->email, alunoB->email);
-
-	alunoB->numMatricula = troca.numMatricula;
-	strcpy(alunoB->nome, troca.nome);
-	strcpy(alunoB->email, troca.email);
-}
-
-int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
-{   
-	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
-	if(lista[pos].numMatricula != aluno.numMatricula){
-		for(int i = pos; i < *tam; i++){
-			trocaAluno(&lista[i], &aluno);
-		}
-		trocaAluno(&lista[*tam], &aluno);
+{
+	if (buscaLisAluno(lista, *tam, aluno.numMatricula) == *tam)
+	{
+		lista[*tam].numMatricula = aluno.numMatricula;
+		strcpy(lista[*tam].nome, aluno.nome);
+		strcpy(lista[*tam].email, aluno.email);
         *tam += 1;
         return TRUE;
 	}
