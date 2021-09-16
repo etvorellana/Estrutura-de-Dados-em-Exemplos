@@ -100,6 +100,7 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 {   
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
 	if(lista[pos].numMatricula != aluno.numMatricula){
+		// for de tam até pos <- como melhorar
 		for(int i = pos; i < *tam; i++){
 			trocaAluno(&lista[i], &aluno);
 		}
@@ -120,4 +121,33 @@ void printLisAluno(TAluno lista[], int tam)
 		printf("%s;\n ", lista[i].email);
 	}
 	printf(" ]\n");
+}
+
+
+void iniListAlunos(TListAlunos *list, int cap, int eOrd)
+{
+	if (eOrd)
+		list->lista = (TAluno *)malloc((cap) * sizeof(TAluno));
+	else
+		list->lista = (TAluno *)malloc((cap + 1) * sizeof(TAluno));
+	list->cap = cap;
+	list->tam = 0;
+	list->eOrd = eOrd;
+}
+
+int buscaAluno(TListAlunos *lista, int chave){
+	if (lista->eOrd == TRUE)
+		return buscaLisAlunoOrd(lista->lista, lista->tam, chave);
+	else{
+		lista->lista[lista->tam].numMatricula = chave;
+		return buscaLisAluno(lista->lista, lista->tam, chave);
+	}
+}
+
+int incAluno(TAluno aluno, TListAlunos *lista){
+	// return TRUE or FALSE
+}
+
+int remAluno(TAluno aluno, TListAlunos *lista){
+	// return TRUE or FALSE
 }

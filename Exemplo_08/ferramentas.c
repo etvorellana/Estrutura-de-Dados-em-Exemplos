@@ -99,6 +99,7 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
         *tam += 1;
         return TRUE;
 	}else if(lista[pos].numMatricula != aluno.numMatricula){
+		// for de tam até pos <- como melhorar
 		for(int i = pos; i < *tam; i++){
 			trocaAluno(&lista[i], &aluno);
 		}
