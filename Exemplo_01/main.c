@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define LSIZE 100
+#define LSIZE 10000
 
 // Armazenando as informações de um aluno
 typedef struct
