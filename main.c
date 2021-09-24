@@ -71,8 +71,6 @@ int main(void)
     // Imprimindo nova lista
     printLisAluno(lista, lista->tam);
 
-    freeListAlunos(lista);
-
     //LISTA NÃO ORDENADA
     printf("\nLISTA NAO ORDENADA\n\n");
     // Adicionando o primeiro elemento na lista
@@ -118,8 +116,6 @@ int main(void)
 
     // Imprimindo nova lista
     printLisAluno(lista1, lista1->tam);
-
-    freeListAlunos(lista1);
 
     return 0;
 }
