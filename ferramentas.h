@@ -37,5 +37,4 @@ void iniListAlunos(TListAlunos* list, int cap, int eOrd);
 int buscaAluno(TListAlunos *lista, int chave);
 int incAluno(TAluno aluno, TListAlunos *lista);
 int remAluno(TAluno aluno, TListAlunos *lista);
-
-
+void freeListAlunos(TListAlunos* lista);
