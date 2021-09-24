@@ -24,29 +24,24 @@ saída:
 	função retorna tam;
 */
 
+
+//procura o indice menor que a chave. 
 int buscaLisAluno(TAluno lista[], int tam, int chave)
 {
 	int i = 0;
-	while (lista[i].numMatricula != chave){
+	while (lista[i].numMatricula < chave){
 		i++;
 	}
 	return i;
 }
 
-int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
+int buscaLisAlunoOrd(TAluno lista[], int chave)
 {	
-	if (tam == 0)
-		return 0;
-	else{
-		int i = tam/2;
-		if(lista[i].numMatricula < chave)
-			return i + buscaLisAlunoOrd(&lista[i], tam -  i, chave);
-		else
-			if(lista[i].numMatricula > chave)
-				return buscaLisAlunoOrd(lista, i, chave);
-			else
-				return i;
-	}
+	int i = 0;
+    while (lista[i].numMatricula < chave){
+        i++;
+    }
+    return i;
 }
 
 /*
@@ -81,33 +76,29 @@ int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
     return FALSE;
 }
 
+//copia e troca aluno da posição a por b
 void trocaAluno(TAluno *alunoA, TAluno *alunoB){
-	TAluno troca;
-	troca.numMatricula = alunoA->numMatricula;
-	strcpy(troca.nome, alunoA->nome);
-	strcpy(troca.email, alunoA->email);
-
-	alunoA->numMatricula = alunoB->numMatricula;
-	strcpy(alunoA->nome, alunoB->nome);
-	strcpy(alunoA->email, alunoB->email);
-
-	alunoB->numMatricula = troca.numMatricula;
-	strcpy(alunoB->nome, troca.nome);
-	strcpy(alunoB->email, troca.email);
+	alunoB->numMatricula = alunoA->numMatricula;
+	strcpy(alunoB->nome, alunoA->nome);
+	strcpy(alunoB->email, alunoA->email);
 }
 
+//inclui aluno de forma ordenada
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 {   
-	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
-	if(lista[pos].numMatricula != aluno.numMatricula){
-		// for de tam até pos <- como melhorar
-		for(int i = pos; i < *tam; i++){
-			trocaAluno(&lista[i], &aluno);
-		}
-		trocaAluno(&lista[*tam], &aluno);
+	int pos = buscaLisAlunoOrd(lista, aluno.numMatricula);
+    if (pos == *tam){
+        trocaAluno(&aluno, &lista[*tam] );
         *tam += 1;
         return TRUE;
-	}
+    }else if(lista[pos].numMatricula != aluno.numMatricula){
+        for(int i = *tam; i > pos; i--){
+            trocaAluno(&lista[i-1], &lista[i] );
+        }
+        trocaAluno(&aluno, &lista[pos] );
+        *tam += 1;
+        return TRUE;
+    }
     return FALSE;
 }
 

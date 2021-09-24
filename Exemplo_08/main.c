@@ -4,6 +4,8 @@
 
 #include "ferramentas.h"
 
+
+
 int main(void)
 {
     int tamLista, capLista;
@@ -60,4 +62,3 @@ int main(void)
 
     return 0;
 }
-
