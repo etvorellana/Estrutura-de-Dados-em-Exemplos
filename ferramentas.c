@@ -203,8 +203,3 @@ int remAluno(TAluno aluno, TListAlunos *lista){
 			return FALSE;
 	}
 }
-
-void freeListAlunos(TListAlunos *lista){
-	for(int i=0;i<lista->tam;i++)
-        free(lista->lista[i]);
-}
