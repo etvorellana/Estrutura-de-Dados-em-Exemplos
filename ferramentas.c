@@ -120,11 +120,10 @@ int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
 		
 	lista[*tam].numMatricula = aluno.numMatricula;
     int pos = buscaLisAluno(lista, aluno.numMatricula);
-	if (pos != *tam){
-        for(int i=pos;i<*tam-1;i++){
+	if (pos != *tam-1){
+        for(int i=pos;i<*tam; i++){
             trocaAluno(&lista[i+1], &lista[i]);
         }
-        *tam -= 1;
         return TRUE;
 	}
     return FALSE;
@@ -137,10 +136,10 @@ int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
 int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam){
     if(*tam > 0){
         int pos = buscaLisAlunoOrd(lista,aluno.numMatricula);
-        if(lista[pos].numMatricula == aluno.numMatricula){
-            *tam -= 1;
-            for(int i =pos; i < *tam; i++)
-                trocaAluno(&lista[i+1], &lista[i]);
+    if(lista[pos].numMatricula == aluno.numMatricula){
+        *tam -= 1;
+       for(int i =pos; i < *tam; i++){
+         trocaAluno(&lista[i+1], &lista[i]);
             return TRUE;
         }
     }
