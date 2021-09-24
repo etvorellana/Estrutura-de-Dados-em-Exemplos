@@ -69,9 +69,11 @@ int main(void)
         printf("Aluno %d não está na lista\n", aluno.numMatricula);
 
     // Imprimindo nova lista
-    printLisAluno(lista, lista->tam);
+    printLisAluno(lista->lista, lista->tam);
 
-    freeListAlunos(lista);
+    for(int i=0;i<lista->tam;i++){
+        free(&lista->lista[i]);
+    }
 
     //LISTA NÃO ORDENADA
     printf("\nLISTA NAO ORDENADA\n\n");
@@ -117,9 +119,10 @@ int main(void)
         printf("Aluno %d não está na lista\n", aluno1.numMatricula);
 
     // Imprimindo nova lista
-    printLisAluno(lista1, lista1->tam);
-
-    freeListAlunos(lista1);
-
+    printLisAluno(lista1->lista, lista1->tam);
+    
+    for(int i=0;i<3;i++){
+        free(&lista1->lista[i]);
+    }
     return 0;
 }
