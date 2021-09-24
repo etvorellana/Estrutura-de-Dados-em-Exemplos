@@ -27,7 +27,7 @@ saída:
 int buscaLisAluno(TAluno lista[], int tam, int chave)
 {
 	int i = 0;
-	while (lista[i].numMatricula != chave){
+	while (i < tam &&lista[i].numMatricula != chave){
 		i++;
 	}
 	return i;
@@ -101,10 +101,22 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
 	if(lista[pos].numMatricula != aluno.numMatricula){
 		// for de tam até pos <- como melhorar
+    int x = 0;
+    int y = 1;
 		for(int i = pos; i < *tam; i++){
-			trocaAluno(&lista[i], &aluno);
+		lista[*tam-x].numMatricula = lista[*tam-y].numMatricula;
+    strcpy(lista[*tam-x].nome, lista[*tam-y].nome);
+    strcpy(lista[*tam-x].email, lista[*tam-y].email);
+     x++;
+     y++;
 		}
-		trocaAluno(&lista[*tam], &aluno);
+		lista[pos+1].numMatricula = lista[pos].numMatricula;
+    strcpy(lista[pos+1].nome, lista[pos].nome);
+    strcpy(lista[pos+1].email, lista[pos].email);
+
+    lista[pos].numMatricula = aluno.numMatricula;
+    strcpy(lista[pos].nome, aluno.nome);
+    strcpy(lista[pos].email, aluno.email);
         *tam += 1;
         return TRUE;
 	}
@@ -121,4 +133,21 @@ void printLisAluno(TAluno lista[], int tam)
 		printf("%s;\n ", lista[i].email);
 	}
 	printf(" ]\n");
+}
+
+int remAlunoOrd(TAluno aluno, TAluno lista[], int *tam){
+  int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
+
+ if (pos == *tam){
+   return 0;
+ }
+  if (lista[pos].numMatricula == aluno.numMatricula){
+    for(int i = pos; i<*tam; i++){
+       //lista->lista[i] = lista->lista[i+1];
+       lista[i]  = lista[i+1];
+     }
+     *tam -= 1;
+     return TRUE;
+  }else return 0;
+  
 }

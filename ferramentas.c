@@ -27,12 +27,12 @@ saída:
 int buscaLisAluno(TAluno lista[], int tam, int chave)
 {
 	int i = 0;
-	while (lista[i].numMatricula != chave){
+	while ( i < tam && lista[i].numMatricula != chave){
 		i++;
 	}
 	return i;
 }
-
+//Alterado para TListAlunos
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 {	
 	int min = 0, max = tam, i;
@@ -69,13 +69,15 @@ saída:
     incluído na lista se já tiver um elemento na lista com o mesmo
     atributo chave
 */
-int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
+
+//Alterando para passar um tipo TListAlunos
+int incLisAluno(TAluno aluno, TListAlunos lista[], int tam)
 {   
-    lista[*tam].numMatricula = aluno.numMatricula;
-	if (buscaLisAluno(lista, *tam, aluno.numMatricula) == *tam){
-        strcpy(lista[*tam].nome, aluno.nome);
-	    strcpy(lista[*tam].email, aluno.email);
-        *tam += 1;
+    lista[lista->tam].lista->numMatricula = aluno.numMatricula;
+	if (buscaLisAluno(lista->lista,lista->tam, aluno.numMatricula) == lista->tam){
+        strcpy(lista[lista->tam].lista->nome, aluno.nome);
+	    strcpy(lista[lista->tam].lista->email, aluno.email);
+        tam += 1;
         return TRUE;
 	}
     return FALSE;
@@ -101,10 +103,23 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
 	if(lista[pos].numMatricula != aluno.numMatricula){
 		// for de tam até pos <- como melhorar
-		for(int i = pos; i < *tam; i++){
-			trocaAluno(&lista[i], &aluno);
+    //Modificando o for de inclusao
+    int x = 0;
+    int y = 1;
+		for(int i =*tam; i > pos; i--){
+			lista[*tam-x].numMatricula = lista[*tam-y].numMatricula;
+    strcpy(lista[*tam-x].nome, lista[*tam-y].nome);
+    strcpy(lista[*tam-x].email, lista[*tam-y].email);
+     x++;
+     y++;
 		}
-		trocaAluno(&lista[*tam], &aluno);
+		 lista[pos+1].numMatricula = lista[pos].numMatricula;
+    strcpy(lista[pos+1].nome, lista[pos].nome);
+    strcpy(lista[pos+1].email, lista[pos].email);
+
+    lista[pos].numMatricula = aluno.numMatricula;
+    strcpy(lista[pos].nome, aluno.nome);
+    strcpy(lista[pos].email, aluno.email);
         *tam += 1;
         return TRUE;
 	}
@@ -126,6 +141,7 @@ void printLisAluno(TAluno lista[], int tam)
 
 void iniListAlunos(TListAlunos *list, int cap, int eOrd)
 {
+  
 	if (eOrd)
 		list->lista = (TAluno *)malloc((cap) * sizeof(TAluno));
 	else
@@ -145,9 +161,49 @@ int buscaAluno(TListAlunos *lista, int chave){
 }
 
 int incAluno(TAluno aluno, TListAlunos *lista){
-	// return TRUE or FALSE
+  if (lista->tam >= lista->cap){
+    printf("Lista esta cheia\n");
+    return 0;
+  }
+  if(lista->eOrd == FALSE){
+	int pos = buscaAluno(lista, aluno.numMatricula);
+  //lista->lista[[lista->tam]].lista->numMatricula
+  if (pos == lista->tam){
+    lista->lista[lista->tam].numMatricula = aluno.numMatricula;
+    strcpy(lista->lista[lista->tam].nome, aluno.nome);
+    strcpy(lista->lista[lista->tam].email, aluno.email);
+
+    lista->tam += 1;
+    return TRUE;
+  } 
+}//Fim do if nao ordenado
+
+if (lista->eOrd == TRUE){
+  incLisAlunoOrd(aluno, lista->lista, &lista->tam);
+  return 1;
+} else return 0;
+
 }
 
+
 int remAluno(TAluno aluno, TListAlunos *lista){
-	// return TRUE or FALSE
+	int pos = buscaAluno(lista, aluno.numMatricula);
+  if(pos == lista->tam){
+    return 0;
+  } 
+  if (lista->lista[pos].numMatricula == aluno.numMatricula){
+    for(int i = pos; i<lista->tam; i++){
+       lista->lista[i] = lista->lista[i+1];
+     }
+     lista->tam -= 1;
+     return TRUE;
+  }else{
+    return 0;
+  }
+}
+
+void mostraTamanhopAndCap(TListAlunos lista){
+    printf("Tamanho da lista = %d\n", lista.tam);
+    printf("Capacidade da lista =  %d\n", lista.cap);
+  
 }

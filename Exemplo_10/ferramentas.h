@@ -15,3 +15,4 @@ int incLisAluno(TAluno aluno, TAluno lista[], int *tam);
 void printLisAluno(TAluno lista[], int tam);
 
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam);
+int remAlunoOrd(TAluno aluno, TAluno lista[], int *tam);

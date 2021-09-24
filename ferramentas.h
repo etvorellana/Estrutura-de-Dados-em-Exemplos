@@ -19,7 +19,7 @@ typedef struct{
 
 // Lista não ordenada
 int buscaLisAluno(TAluno lista[], int tam, int chave);
-int incLisAluno(TAluno aluno, TAluno lista[], int *tam);
+int incLisAluno(TAluno aluno, TListAlunos lista[], int tam);
 int remLisAluno(TAluno aluno, TAluno lista[], int *tam);
 // Lista ordenada
 
@@ -37,5 +37,7 @@ void iniListAlunos(TListAlunos* list, int cap, int eOrd);
 int buscaAluno(TListAlunos *lista, int chave);
 int incAluno(TAluno aluno, TListAlunos *lista);
 int remAluno(TAluno aluno, TListAlunos *lista);
+
+void mostraTamanhopAndCap(TListAlunos lista);
 
 
