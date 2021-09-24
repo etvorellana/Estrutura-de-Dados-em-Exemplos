@@ -13,3 +13,5 @@ Exemplos para a disciplina de Estrutura de Dados
 * Exemplo_10: Implementação das funções para trabalhar com a lista ordenada utilizando uma versão não recursiva da busca binaria. A inclusão e a busca são feitas de forma a garantir que os nós estejam ordenadas com base no atributo chave;
 
 
+
+
