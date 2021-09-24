@@ -4,27 +4,38 @@
 
 #include "ferramentas.h"
 
-/*
-Implementa a busca numa lista linear de alocação sequencial
-do tipo TAluno. Nesta função se trabalha com uma lista 
-definida como um array de forma estática. 
-Entrada:
-- lista: Uma lista sequencial estática na forma de uma referência 
-	um array de tipo tAluno. Nesta implementação se assume que a chave
-    procurada foi copiada no final da lista;
-- tam: Tamanho da lista, ou seja os índices dos elementos da lista
-	vão de 0 até tam-1. A chave procurada deve ter sido copiada para
-    o elemento de índice tam, que não pertence à lista; 
-- chave: Número de matrícula do aluno que está sendo procurado. 
-	Para evitar ambiguidades, supõe-se que todas as chaves são
-	distintas;
-saída:
-- A função retorna o índice da lista que possui a chave procurada.
-	Caso a chave não pertença a nenhum dos elementos da lista a 
-	função retorna tam;
-*/
 
-int buscaLisAluno(TAluno lista[], int tam, int chave)
+#define TRUE 1
+#define FALSE 0
+
+
+typedef struct
+{
+    int numMatricula; //chave com 9 dígitos (INT_MAX	+2147483647)
+    char nome[100];   // nome com até 99 caracteres
+    char email[100];  // eMail com até 99 caracteres
+} TAluno;
+
+
+typedef struct{
+	TAluno* lista;
+	int cap;
+	int tam;
+    int eOrd;
+} TListAlunos;
+
+
+int buscaLisAlunoOrd(TAluno lista[], int chave);
+int incListAlunoOrd(TAluno aluno, TAluno lista[], int *tam);
+void trocaAluno(TAluno *alunoA, TAluno *alunoB);
+void printLisAluno(TAluno lista[], int *tam);
+int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam);
+int remLisAluno(TAluno aluno, TAluno lista[], int *tam);
+void iniListAlunos(TListAlunos *list, int cap, int eOrd);
+
+
+//Funcao de busca para listas não ordenadas de alunos
+int buscaLisAluno(TAluno lista[], int chave)
 {
 	int i = 0;
 	while (lista[i].numMatricula != chave){
@@ -33,46 +44,38 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 	return i;
 }
 
-int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
-{	
-	int min = 0, max = tam, i;
-	while (min != max)	{
-		i = (max + min) / 2;
-		if (lista[i].numMatricula < chave)
-			min = ++i;
-		else
-			if (lista[i].numMatricula > chave)
-				max = i;
-			else			
-				return i;
-	}
-	return i;
+//Funcao de busca para listas ordenadas de alunos
+int buscaLisAlunoOrd(TAluno lista[], int chave)
+{
+    int i = 0;
+    while (lista[i].numMatricula < chave){
+        i++;
+    }
+    return i;
 }
 
-/*
-Implementa a inclusão numa lista linear de alocação sequencial
-do tipo TAluno. Nesta função se trabalha com uma lista 
-definida como um array de forma estática. Os elementos da lista
-não podem repetir o mesmo atributi chave. 
-Entrada:
-- aluno: Variável de tipo TAluno com as informações do elemnto
-    que se deseja incluir na lista;
-- lista: Uma lista sequencial estática na forma de uma referência 
-	um array de tipo tAluno. O array permite aloca um elementro a 
-    mais do que a capacidade da lista para permitir um algorítmo de
-    busca mais eficiente; 
-- tam: Tamanho da lista, ou seja os índices dos elementos da lista
-	vão de 0 até tam-1; 
-saída:
-- A função retorna o verdadeiro caso o aluno seja incluído na lista
-    e falso caso contrário. Nesta implementação o aluno não sera 
-    incluído na lista se já tiver um elemento na lista com o mesmo
-    atributo chave
-*/
-int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
-{   
+//Funcao de busca para listas ordenadas/não ordenadas de alunos
+int buscaAluno(TListAlunos *lista, int chave){
+	if (lista->eOrd == TRUE)
+		return buscaLisAlunoOrd(lista->lista, chave);
+	else{
+		lista->lista[lista->tam].numMatricula = chave;
+		return buscaLisAluno(lista->lista, chave);
+	}
+}
+
+//Função para trocar alunos
+void trocaAluno(TAluno *alunoA, TAluno *alunoB){
+	alunoB->numMatricula = alunoA->numMatricula;
+	strcpy(alunoB->nome, alunoA->nome);
+	strcpy(alunoB->email, alunoA->email);
+}
+
+//inclue um aluno em um array de alunos não ordenado
+int incListAluno(TAluno aluno, TAluno lista[], int *tam)
+{
     lista[*tam].numMatricula = aluno.numMatricula;
-	if (buscaLisAluno(lista, *tam, aluno.numMatricula) == *tam){
+	if (buscaLisAluno(lista,aluno.numMatricula) == *tam){
         strcpy(lista[*tam].nome, aluno.nome);
 	    strcpy(lista[*tam].email, aluno.email);
         *tam += 1;
@@ -81,40 +84,85 @@ int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
     return FALSE;
 }
 
-void trocaAluno(TAluno *alunoA, TAluno *alunoB){
-	TAluno troca;
-	troca.numMatricula = alunoA->numMatricula;
-	strcpy(troca.nome, alunoA->nome);
-	strcpy(troca.email, alunoA->email);
-
-	alunoA->numMatricula = alunoB->numMatricula;
-	strcpy(alunoA->nome, alunoB->nome);
-	strcpy(alunoA->email, alunoB->email);
-
-	alunoB->numMatricula = troca.numMatricula;
-	strcpy(alunoB->nome, troca.nome);
-	strcpy(alunoB->email, troca.email);
-}
-
-int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
-{   
-	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
-	if(lista[pos].numMatricula != aluno.numMatricula){
-		// for de tam até pos <- como melhorar
-		for(int i = pos; i < *tam; i++){
-			trocaAluno(&lista[i], &aluno);
-		}
-		trocaAluno(&lista[*tam], &aluno);
+//inclue um aluno em um array de alunos ordenado
+int incListAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
+{
+    int pos = buscaLisAlunoOrd(lista, aluno.numMatricula);
+    if (pos == *tam){
+        trocaAluno(&aluno, &lista[*tam] );
         *tam += 1;
         return TRUE;
-	}
+    }else if(lista[pos].numMatricula != aluno.numMatricula){
+        for(int i = *tam; i > pos; i--){
+            trocaAluno(&lista[i-1], &lista[i] );
+        }
+        trocaAluno(&aluno, &lista[pos] );
+        *tam += 1;
+        return TRUE;
+    }
     return FALSE;
 }
 
-void printLisAluno(TAluno lista[], int tam)
+//Inclue um aluno em uma lista ordenada/nao ordenada de alunos
+int incAluno(TAluno aluno, TListAlunos *lista){
+    // return TRUE or FALSE
+    if(lista->tam == lista->cap)
+        return FALSE;
+    if (lista->eOrd == TRUE)
+        return incListAlunoOrd(aluno, lista->lista, &lista->tam);
+    else
+        return incListAluno(aluno, lista->lista, &lista->tam);
+}
+
+//Funcao para remocao em listas não ordenadas de alunos
+int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
+	if(*tam > 0){
+		
+	lista[*tam].numMatricula = aluno.numMatricula;
+    int pos = buscaLisAluno(lista, aluno.numMatricula);
+	if (pos != *tam){
+        for(int i=pos;i<*tam-1;i++){
+            trocaAluno(&lista[i+1], &lista[i]);
+        }
+        *tam -= 1;
+        return TRUE;
+	}
+    return FALSE;
+}	
+		
+}		
+    
+
+//Funcao para remocao em listas ordenadas de alunos
+int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam){
+    if(*tam > 0){
+        int pos = buscaLisAlunoOrd(lista,aluno.numMatricula);
+        if(lista[pos].numMatricula == aluno.numMatricula){
+            *tam -= 1;
+            for(int i =pos; i < *tam; i++)
+                trocaAluno(&lista[i+1], &lista[i]);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+//Remove um aluno em uma lista ordenada/nao ordenada de alunos
+int remAluno(TAluno aluno, TListAlunos *lista){
+    // return TRUE or FALSE
+    if(lista->tam == 0)
+        return FALSE;
+    if (lista->eOrd == TRUE)
+        return remLisAlunoOrd(aluno, lista->lista, &lista->tam);
+    else
+        return remLisAluno(aluno, lista->lista, &lista->tam);
+}
+
+//Função para imprimir na tela uma lista de alunos
+void printLisAluno(TAluno lista[], int *tam)
 {
 	printf("[ \n ");
-	for (int i = 0; i < tam; i++)
+	for (int i = 0; i < *tam; i++)
 	{
 		printf("%d, ", lista[i].numMatricula);
 		printf("%s, ", lista[i].nome);
@@ -123,9 +171,8 @@ void printLisAluno(TAluno lista[], int tam)
 	printf(" ]\n");
 }
 
-
-void iniListAlunos(TListAlunos *list, int cap, int eOrd)
-{
+//Função para instanciar uma lista de alunos
+void iniListAlunos(TListAlunos *list, int cap, int eOrd){
 	if (eOrd)
 		list->lista = (TAluno *)malloc((cap) * sizeof(TAluno));
 	else
@@ -133,21 +180,4 @@ void iniListAlunos(TListAlunos *list, int cap, int eOrd)
 	list->cap = cap;
 	list->tam = 0;
 	list->eOrd = eOrd;
-}
-
-int buscaAluno(TListAlunos *lista, int chave){
-	if (lista->eOrd == TRUE)
-		return buscaLisAlunoOrd(lista->lista, lista->tam, chave);
-	else{
-		lista->lista[lista->tam].numMatricula = chave;
-		return buscaLisAluno(lista->lista, lista->tam, chave);
-	}
-}
-
-int incAluno(TAluno aluno, TListAlunos *lista){
-	// return TRUE or FALSE
-}
-
-int remAluno(TAluno aluno, TListAlunos *lista){
-	// return TRUE or FALSE
 }
