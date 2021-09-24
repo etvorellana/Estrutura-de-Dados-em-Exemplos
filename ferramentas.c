@@ -157,11 +157,11 @@ void printLisAluno(TAluno lista[], int tam)
 
 void iniListAlunos(TListAlunos *list, int cap, int eOrd){
 	if (eOrd){
-		list->lista = (TAluno *)malloc((cap) * sizeof(TAluno *));
+		list->lista = (TAluno *)malloc((cap) * sizeof(TAluno ));
 		if(list->lista == NULL) printf("Deu erro!");
 	}
 	else{
-		list->lista = (TAluno *)malloc((cap+1) * sizeof(TAluno *));
+		list->lista = (TAluno *)malloc((cap+1) * sizeof(TAluno ));
 		if(list->lista == NULL) printf("Deu erro!");
 	}
 	list->cap = cap;
@@ -186,6 +186,7 @@ int incAluno(TAluno aluno, TListAlunos *lista){
 			return FALSE;
 	}
 	else{	
+
 		lista->lista[lista->tam].numMatricula = aluno.numMatricula;
 		if(incLisAluno(aluno,lista->lista,&lista->tam) == TRUE)
 			return TRUE;	
