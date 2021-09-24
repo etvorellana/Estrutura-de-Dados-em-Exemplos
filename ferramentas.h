@@ -14,7 +14,7 @@ typedef struct{
 	TAluno* lista;
 	int cap;
 	int tam;
-    int eOrd;
+  int eOrd;
 } TListAlunos;
 
 // Lista não ordenada

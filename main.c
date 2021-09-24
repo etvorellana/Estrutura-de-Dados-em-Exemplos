@@ -28,32 +28,40 @@ int main(void)
         Mengano Martins Pereira 201913245   menmarper@uesc.br
         Fulano Silva Oliveira   201912345   fulsiloli@uesc.br
     */
-
+    
     // Adicionando o primeiro elemento na lista
     TAluno aluno;
     aluno.numMatricula = 201913425;
     strcpy(aluno.nome, "Regrano Guedes Maia");
     strcpy(aluno.email, "regguemai@uesc.br");
     if(incLisAlunoOrd(aluno, lista, &tamLista) == FALSE)
+    //if(incAluno(aluno, &lista) ==  FALSE)
         printf("Aluno %d já está na lista\n", aluno.numMatricula);
     // Adicionando um elemento na lista com chave repetida
     aluno.numMatricula = 201913425;
     strcpy(aluno.nome, "Mengano Martins Pereira");
     strcpy(aluno.email, "menmarper@uesc.br");
     if(incLisAlunoOrd(aluno, lista, &tamLista) == FALSE)
+    //if(incAluno(aluno, &lista) ==  FALSE)
         printf("Aluno %d já está na lista\n", aluno.numMatricula);
     // Adicionando um novo elemento na lista
     aluno.numMatricula = 201913245;
     strcpy(aluno.nome, "Mengano Martins Pereira");
     strcpy(aluno.email, "menmarper@uesc.br");
     if(incLisAlunoOrd(aluno, lista, &tamLista) == FALSE)
+    //if(incAluno(aluno, &lista) ==  FALSE)
         printf("Aluno %d já está na lista\n", aluno.numMatricula);
     // Adicionando um novo elemento na lista
     aluno.numMatricula = 201912345;
     strcpy(aluno.nome, "Fulano Silva Oliveira");
     strcpy(aluno.email, "fulsiloli@uesc.br");
     if(incLisAlunoOrd(aluno, lista, &tamLista) == FALSE)
+    //if(incAluno(aluno, &lista) ==  FALSE)
         printf("Aluno %d já está na lista\n", aluno.numMatricula);
+
+    printLisAluno(lista, tamLista);
+    
+    remLisAluno(aluno, lista, &tamLista);
 
     // Imprimindo a lista
     printLisAluno(lista, tamLista);
