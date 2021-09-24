@@ -166,7 +166,7 @@ int incAluno(TAluno aluno, TListAlunos *lista){
 int remAluno(TAluno aluno, TListAlunos *lista){
 	// return TRUE or FALSE
   int pos = buscaAluno(lista->lista, aluno.numMatricula);
-  if (buscaAluno(lista->lista[pos].numMatricula, aluno.numMatricula) != lista->tam)) {
+  if (buscaAluno(lista->lista[pos].numMatricula, aluno.numMatricula) != lista->tam) {
     if (lista->eOrd == TRUE)
     remLisAluno(aluno, lista, lista->tam);
   else
@@ -175,15 +175,15 @@ int remAluno(TAluno aluno, TListAlunos *lista){
   return TRUE;
   }
   
-  return FALSE
+  return FALSE;
 }
 
 int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
   int pos = buscaLisAluno(lista, *tam, aluno.numMatricula);
   if (pos != *tam){
-    lista[pos].numMatricula = lista[*tam].numMatricula;
-    strcpy(lista[pos].nome, lista[*tam].nome);
-	  strcpy(lista[pos].email, lista[*tam].email);
+    lista[pos].numMatricula = lista[*tam-1].numMatricula;
+    strcpy(lista[pos].nome, lista[*tam-1].nome);
+	  strcpy(lista[pos].email, lista[*tam-1].email);
     
     *tam -= 1;
 
