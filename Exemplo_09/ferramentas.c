@@ -24,8 +24,7 @@ saída:
 	função retorna tam;
 */
 
-int buscaLisAluno(TAluno lista[], int tam, int chave)
-{
+int buscaLisAluno(TAluno lista[], int tam, int chave){
 	int i = 0;
 	while (lista[i].numMatricula != chave){
 		i++;
@@ -80,7 +79,6 @@ int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
 	}
     return FALSE;
 }
-
 void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 	TAluno troca;
 	troca.numMatricula = alunoA->numMatricula;
@@ -95,22 +93,25 @@ void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 	strcpy(alunoB->nome, troca.nome);
 	strcpy(alunoB->email, troca.email);
 }
-
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 {   
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
-	if(lista[pos].numMatricula != aluno.numMatricula){
+	
+    if(lista[pos].numMatricula != aluno.numMatricula){
 		
-		for(int i = *tam; i > pos; i--){
+    for(int i=*tam; i>pos; i--) {
+
 			lista[i].numMatricula = lista[i-1].numMatricula;
-			strcpy(lista[i].nome,lista[i-1].nome);
-			strcpy(lista[i].email,lista[i-1].email);
+      
+        	strcpy(lista[i].nome, lista[i-1].nome);
+	    	strcpy(lista[i].email, lista[i-1].email);
 		}
-		lista[pos].numMatricula = aluno.numMatricula;
-		strcpy(lista[pos].nome,aluno.nome);
-		strcpy(lista[pos].email,aluno.email);
-        *tam += 1;
-        return TRUE;
+	lista[pos].numMatricula = aluno.numMatricula;
+  
+		      strcpy(lista[pos].nome,aluno.nome);
+		    strcpy(lista[pos].email,aluno.email);
+      *tam += 1;
+    return TRUE;
 	}
     return FALSE;
 }

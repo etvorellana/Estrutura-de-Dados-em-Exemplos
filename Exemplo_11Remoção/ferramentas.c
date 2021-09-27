@@ -35,7 +35,7 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 {	
-	int min = 0, max = tam, i;
+	int min = 0, max = tam, i=0;
 	while (min != max)	{
 		i = (max + min) / 2;
 		if (lista[i].numMatricula < chave)
@@ -75,12 +75,11 @@ int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
 	if (buscaLisAluno(lista, *tam, aluno.numMatricula) == *tam){
         strcpy(lista[*tam].nome, aluno.nome);
 	    strcpy(lista[*tam].email, aluno.email);
-        *tam += 1;
+        *tam = *tam + 1;
         return TRUE;
 	}
     return FALSE;
 }
-
 void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 	TAluno troca;
 	troca.numMatricula = alunoA->numMatricula;
@@ -95,13 +94,12 @@ void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 	strcpy(alunoB->nome, troca.nome);
 	strcpy(alunoB->email, troca.email);
 }
-
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 {   
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
 	if(lista[pos].numMatricula != aluno.numMatricula){
-    
-	for(int i=*tam; i>pos; i--) {
+
+		for(int i=*tam; i>pos; i--) {
 
 			lista[i].numMatricula = lista[i-1].numMatricula;
       
@@ -112,20 +110,79 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
   
 		      strcpy(lista[pos].nome,aluno.nome);
 		    strcpy(lista[pos].email,aluno.email);
-      *tam += 1;
+      *tam = *tam + 1;
     return TRUE;
 	}
     return FALSE;
 }
 
-void printLisAluno(TAluno lista[], int tam)
-{
-	printf("[ \n ");
-	for (int i = 0; i < tam; i++)
-	{
-		printf("%d, ", lista[i].numMatricula);
-		printf("%s, ", lista[i].nome);
-		printf("%s;\n ", lista[i].email);
+int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam){
+	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
+	      if(lista[pos].numMatricula == aluno.numMatricula){
+	       *tam = *tam - 1;
+		      for(int i =pos; i < *tam; i++){
+			     lista[i].numMatricula=lista[i+1].numMatricula;
+			      strcpy(lista[i].nome,lista[i+1].nome);
+			       strcpy(lista[i].email,lista[i+1].email);
+		}
+        return TRUE;
 	}
-	printf(" ]\n");
+    return FALSE;
+}
+int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
+    lista[*tam].numMatricula = aluno.numMatricula;
+    int pos = 0;
+	if ((pos = buscaLisAluno(lista, *tam, aluno.numMatricula)) != *tam){
+              for(int i=pos-1;i<*tam-1;i++){
+             lista[i].numMatricula = lista[i+1].numMatricula;
+            strcpy(lista[i].nome, lista[i+1].nome);
+	        strcpy(lista[i].email, lista[i+1].email);
+        }
+         *tam = *tam - 1;
+    return TRUE;
+	}
+    return FALSE;
+}
+
+
+
+void iniListAlunos(TListAlunos *list, int cap, int eOrd){
+    if (eOrd)
+        list->lista = (TAluno *)malloc((cap) * sizeof(TAluno));
+    else
+        list->lista = (TAluno *)malloc((cap + 1) * sizeof(TAluno));
+    list->cap = cap;
+    list->tam = 0;
+    list->eOrd = eOrd;
+}
+
+int buscaAluno(TListAlunos *lista, int chave){
+    return lista->eOrd
+               ? buscaLisAlunoOrd(lista->lista, lista->tam, chave)
+               : buscaLisAluno(lista->lista, lista->tam, chave);
+}
+
+int incAluno(TAluno aluno, TListAlunos *lista){
+    printLisAluno(lista->lista, lista->tam);
+    return lista->eOrd
+               ? incLisAlunoOrd(aluno, lista->lista, &lista->tam)
+               : incLisAluno(aluno, lista->lista, &lista->tam);
+}
+
+
+int remAluno(TAluno aluno, TListAlunos *lista){
+    printLisAluno(lista->lista, lista->tam);
+    return lista->eOrd
+               ? remLisAlunoOrd(aluno, lista->lista, &lista->tam)
+               : remLisAluno(aluno, lista->lista, &lista->tam);
+}
+
+void printLisAluno(TAluno lista[], int tam){
+	        printf("[ \n ");
+	        for (int i = 0; i < tam; i++)
+    {
+        printf("%d %s %s\n", lista[i].numMatricula, lista[i].nome, lista[i].email);
+    }
+ 
+    printf(" ]\n");
 }
