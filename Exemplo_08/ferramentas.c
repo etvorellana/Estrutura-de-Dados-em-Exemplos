@@ -88,7 +88,6 @@ void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 	strcpy(alunoB->nome, troca.nome);
 	strcpy(alunoB->email, troca.email);
 }
-
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 {   
     lista[*tam].numMatricula = aluno.numMatricula;
@@ -98,17 +97,21 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 	    strcpy(lista[*tam].email, aluno.email);
         *tam += 1;
         return TRUE;
-	}else if(lista[pos].numMatricula != aluno.numMatricula){
-		for(int i = *tam; i > pos; i--){
+	}else if(lista[pos].numMatricula != aluno.numMatricula) {
+
+		for(int i=*tam; i>pos; i--) {
+
 			lista[i].numMatricula = lista[i-1].numMatricula;
+      
         	strcpy(lista[i].nome, lista[i-1].nome);
 	    	strcpy(lista[i].email, lista[i-1].email);
 		}
-		lista[pos].numMatricula = aluno.numMatricula;
-        strcpy(lista[pos].nome, aluno.nome);
-	    strcpy(lista[pos].email, aluno.email);
-		*tam += 1;
-        return TRUE;
+	lista[pos].numMatricula = aluno.numMatricula;
+  
+		      strcpy(lista[pos].nome,aluno.nome);
+		    strcpy(lista[pos].email,aluno.email);
+      *tam += 1;
+    return TRUE;
 	}
     return FALSE;
 }
