@@ -35,7 +35,7 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 {	
-	int min = 0, max = tam, i=0;
+	int min = 0, max = tam, i;
 	while (min != max)	{
 		i = (max + min) / 2;
 		if (lista[i].numMatricula < chave)
@@ -102,12 +102,12 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 	if(lista[pos].numMatricula != aluno.numMatricula){
 		for(int i = *tam; i > pos; i--){
 			lista[i].numMatricula = lista[i-1].numMatricula;
-			strcpy(lista[i].nome,lista[i-1].nome);
-			strcpy(lista[i].email,lista[i-1].email);
+			strcpy(lista[i].nome, lista[i-1].nome);
+			strcpy(lista[i].email, lista[i-1].email);
 		}
 		lista[pos].numMatricula = aluno.numMatricula;
-		strcpy(lista[pos].nome,aluno.nome);
-		strcpy(lista[pos].email,aluno.email);
+		strcpy(lista[pos].nome, aluno.nome);
+	    strcpy(lista[pos].email, aluno.email);
         *tam += 1;
         return TRUE;
 	}

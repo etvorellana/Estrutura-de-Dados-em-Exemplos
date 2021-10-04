@@ -35,7 +35,7 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 {	
-	int min = 0, max = tam, i=0;
+	int min = 0, max = tam, i;
 	while (min != max)	{
 		i = (max + min) / 2;
 		if (lista[i].numMatricula < chave)
@@ -102,13 +102,44 @@ int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
 	if(lista[pos].numMatricula != aluno.numMatricula){
 		for(int i = *tam; i > pos; i--){
 			lista[i].numMatricula = lista[i-1].numMatricula;
-			strcpy(lista[i].nome,lista[i-1].nome);
-			strcpy(lista[i].email,lista[i-1].email);
+			strcpy(lista[i].nome, lista[i-1].nome);
+			strcpy(lista[i].email, lista[i-1].email);
 		}
 		lista[pos].numMatricula = aluno.numMatricula;
-		strcpy(lista[pos].nome,aluno.nome);
-		strcpy(lista[pos].email,aluno.email);
+		strcpy(lista[pos].nome, aluno.nome);
+	    strcpy(lista[pos].email, aluno.email);
         *tam += 1;
+        return TRUE;
+	}
+    return FALSE;
+}
+
+int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
+	lista[*tam].numMatricula = aluno.numMatricula;
+	int pos = buscaLisAluno(lista, *tam, aluno.numMatricula);
+	if ( pos != *tam)
+		if(*tam == 1){
+			*tam = 0;
+        	return TRUE;
+		}else{
+			lista[pos].numMatricula = lista[*tam - 1].numMatricula;
+        	strcpy(lista[pos].nome, lista[*tam - 1].nome);
+	    	strcpy(lista[pos].email, lista[*tam - 1].email);
+			*tam -= 1;
+        	return TRUE;
+		}
+    return FALSE;
+}
+
+int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam){
+	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
+	if ( lista[pos].numMatricula == aluno.numMatricula){
+		for(int i = pos; i < (*tam - 1); i++){
+			lista[i].numMatricula = lista[i+1].numMatricula;
+        	strcpy(lista[i].nome, lista[i+1].nome);
+	    	strcpy(lista[i].email, lista[i+1].email);
+		}
+        *tam -= 1;
         return TRUE;
 	}
     return FALSE;
@@ -126,30 +157,53 @@ void printLisAluno(TAluno lista[], int tam)
 	printf(" ]\n");
 }
 
-int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam){
-	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
-	if(lista[pos].numMatricula == aluno.numMatricula){
-	    *tam -= 1;
-		for(int i =pos; i < *tam; i++){
-			lista[i].numMatricula=lista[i+1].numMatricula;
-			strcpy(lista[i].nome,lista[i+1].nome);
-			strcpy(lista[i].email,lista[i+1].email);
-		}
-        return TRUE;
-	}
-    return FALSE;
+void iniListAlunos(TListAlunos *list, int cap, int eOrd)
+{
+	if (eOrd)
+		list->lista = (TAluno *)malloc((cap) * sizeof(TAluno));
+	else
+		list->lista = (TAluno *)malloc((cap + 1) * sizeof(TAluno));
+	list->cap = cap;
+	list->tam = 0;
+	list->eOrd = eOrd;
 }
-int remLisAluno(TAluno aluno, TAluno lista[], int *tam){
-    int pos = 0;
-    lista[*tam].numMatricula = aluno.numMatricula;
-	if ((pos = buscaLisAluno(lista, *tam, aluno.numMatricula)) != *tam){
-        for(int i=pos-1;i<*tam-1;i++){
-            lista[i].numMatricula = lista[i+1].numMatricula;
-            strcpy(lista[i].nome, lista[i+1].nome);
-	        strcpy(lista[i].email, lista[i+1].email);
-        }
-        *tam -= 1;
-        return TRUE;
+
+int buscaAluno(TListAlunos *lista, int chave){
+	if (lista->eOrd == TRUE)
+		return buscaLisAlunoOrd(lista->lista, lista->tam, chave);
+	else{
+		lista->lista[lista->tam].numMatricula = chave;
+		return buscaLisAluno(lista->lista, lista->tam, chave);
 	}
-    return FALSE;
+}
+
+int incAluno(TAluno aluno, TListAlunos *lista){
+	if (lista->tam == lista->cap)
+		return FALSE;
+	if (lista->eOrd == TRUE)
+		return incLisAlunoOrd(aluno, lista->lista, &lista->tam);
+	else
+		return incLisAluno(aluno, lista->lista, &lista->tam);
+}
+
+int remAluno(TAluno aluno, TListAlunos *lista){
+	if (lista->tam == 0)
+		return FALSE;
+	if (lista->eOrd == TRUE)
+		return remLisAlunoOrd(aluno, lista->lista, &lista->tam);
+	else
+		return remLisAluno(aluno, lista->lista, &lista->tam);
+}
+
+void geraAlunos(TListAlunos* lista){
+	unsigned int matricula;
+	TAluno aluno;
+	while(lista->tam < lista->cap){
+		//                  ano                       semestre               sequencial
+		matricula = (2000 + random()%22)*100000 + (1 + random()%2)*10000 + random()%10000; 
+		aluno.numMatricula = matricula;
+  		strcpy(aluno.nome, "Nome SobrenomeM SobrenomeP");
+  		strcpy(aluno.email,"NSmSp@uesc.br");
+		incAluno(aluno, lista);
+	}
 }

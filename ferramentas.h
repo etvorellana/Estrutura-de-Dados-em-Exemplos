@@ -1,6 +1,5 @@
 #define TRUE 1
 #define FALSE 0
-#define LSIZE 100
 
 // Armazenando as informações de um aluno
 typedef struct
@@ -17,23 +16,54 @@ typedef struct{
     int eOrd;
 } TListAlunos;
 
+typedef struct{
+	TAluno* pilha;
+	int cap;  //pilha vazia quando topo = 0
+	int topo; //pilha cheia quando topo = cap
+}TPilhaAlunos; //last in first out - lifo
+
+typedef struct{
+	TAluno* fila;
+	int cap;
+	int ini; 	//fila vazia quando ini = fim
+	int fim;  //fila cheia quando fim - ini = cap
+}TFilaAlunos; //first in first out - fifo
+
+struct SNoALuno{
+	int numMatricula; //chave com 9 dígitos (INT_MAX	+2147483647)
+    char nome[100];   // nome com até 99 caracteres
+    char email[100];  // eMail com até 99 caracteres
+	struct SNoALuno *prox; // Endereço do próximo elemento
+};
+
+typedef struct SNoALuno TNoAluno;
+typedef TNoAluno *PNoAluno;
+
 // Lista não ordenada
 int buscaLisAluno(TAluno lista[], int tam, int chave);
-int incLisAluno(TAluno aluno, TListAlunos lista[], int *tam);
-int remLisAluno(TAluno aluno, TListAlunos lista[], int *tam);
-// Lista ordenada
+int incLisAluno(TAluno aluno, TAluno lista[], int *tam);
+int remLisAluno(TAluno aluno, TAluno lista[], int *tam);
 
-// ATividade 1. Modificar o algoritmo de inc para melhorar o processo
-// seguindo recomendação que está no comentario 
+// Lista ordenada
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave);
-int incLisAlunoOrd(TAluno aluno, TListAlunos lista[], int *tam);
-int remLisAlunoOrd(TAluno aluno, TListAlunos lista[], int *tam);
+int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam);
+int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam);
 
 void printLisAluno(TAluno lista[], int tam);
+void geraAlunos(TListAlunos* lista);
 
-
-// Utilizar isto aqui no projeto 
+// Para trabalhar com Lista Sequenciais de Alocação Sequencial 
 void iniListAlunos(TListAlunos* list, int cap, int eOrd);
 int buscaAluno(TListAlunos *lista, int chave);
 int incAluno(TAluno aluno, TListAlunos *lista);
 int remAluno(TAluno aluno, TListAlunos *lista);
+
+// Pilhas
+void iniPilhaAlunos(TPilhaAlunos* pilha, int cap); 
+int incAlunoNaPilha(TAluno aluno, TPilhaAlunos* pilha);
+int remAlunoDaPilha(TAluno* aluno, TPilhaAlunos* pilha);
+
+// Filas
+void iniFilaAlunos(TFilaAlunos* fila, int cap);
+int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila);
+int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila);
