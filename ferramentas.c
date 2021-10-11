@@ -208,6 +208,8 @@ void geraAlunos(TListAlunos* lista){
 	}
 }
 
+/*Pilas*/
+
 void iniPilhaAlunos(TPilhaAlunos* pilha, int cap){
 	pilha->cap = cap;
 	pilha->topo = 0;
@@ -239,6 +241,8 @@ int remAlunoDaPilha(TAluno* aluno, TPilhaAlunos* pilha){ //pop ou desempilha
 		return FALSE;
 	}
 }
+
+/*Filas*/
 
 void iniFilaAlunos(TFilaAlunos* fila, int cap){
 	fila->cap = cap;
@@ -273,5 +277,112 @@ int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila){
 		return FALSE;
 	}
 }
+
+/*Listas Enadeadas*/
+
+// Cria um ponteiro para o TNoAluno
+PNoAluno iniNoAluno(void){
+	PNoAluno no;  								
+    no = (PNoAluno) malloc(sizeof(TNoAluno)); 	
+	//no->prox = NULL;
+	no->prox = no; 							
+	return no;
+}
+
+PNoAluno buscaLisEncAluno_(PNoAluno lista, int chave){
+	PNoAluno atual = lista;
+	while(atual->prox != NULL){
+		if (atual->prox->numMatricula == chave)
+			break;
+		atual = atual->prox;
+	}
+	//return atual->prox;
+	return atual; 
+}
+
+//Versão 2 da busca, supondo que a chave faz parte de lista
+PNoAluno buscaLisEncAluno(PNoAluno lista, int chave){
+	PNoAluno atual = lista;
+	atual->numMatricula = chave;
+	while(atual->prox->numMatricula != chave){
+		atual = atual->prox;
+	}
+	return atual; 
+}
+
+int incLisEncAluno(TAluno aluno, PNoAluno lista){
+	PNoAluno pos = buscaLisEncAluno(lista, aluno.numMatricula);
+	if (pos->prox == lista){ 				//o aluno não esta na lista
+		PNoAluno novo = iniNoAluno(); //Criando um novo no
+		novo->numMatricula = aluno.numMatricula; 
+		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
+		strcpy(novo->email, aluno.email);
+		novo->prox = lista; 				//o novo para lista
+		pos->prox = novo; 					//último aponta para novo
+		return TRUE;
+	}
+	return FALSE; 							//aluno já esta na lista
+}
+
+int remLisEncAluno(TAluno aluno, PNoAluno lista){
+	PNoAluno pos = buscaLisEncAluno(lista, aluno.numMatricula);
+	if (pos->prox != lista){ 				//o aluno esta na lista
+		PNoAluno exc = pos->prox; 			//no a ser excluido
+		pos->prox = exc->prox; 				//anterior aponta para proximo
+		free(exc); 							//livera memória
+		return TRUE;
+	}
+	return FALSE; // aluno não esta na lista
+}
+
+PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
+	PNoAluno atual = lista;
+	atual->numMatricula = chave;
+	while(atual->prox->numMatricula < chave){
+		atual = atual->prox;
+	}
+	return atual; 
+}
+
+void printLisEncAluno(PNoAluno lista){
+	printf("[ \n ");
+	PNoAluno atual = lista;
+	while(atual->prox != lista)	{
+		atual = atual->prox;
+		printf("%d, ", atual->numMatricula);
+		printf("%s, ", atual->nome);
+		printf("%s;\n ", atual->email);
+	}
+	printf(" ]\n");
+}
+
+/*
+// Criando uma lista simplesmente encadeada com base numa lista sequencial
+PNoAluno criarListEncDeListSeq(TListAlunos* listaS){
+	PNoAluno listaE, atual; 
+	listaE = iniListaEncAluno(); 	//Criamos uma lista encadeada vazia
+	if (listaS->tam > 0){ 			// Se a lista seq não estiver vazia 
+		atual = listaE;
+		for(int i = 0; i < listaS->tam; i++){ 
+			atual->prox = (PNoAluno)malloc(sizeof(TNoAluno));
+			atual = atual->prox;
+			atual->numMatricula = listaS->lista[i].numMatricula;
+    		strcpy(atual->nome, listaS->lista[i].nome);
+    		strcpy(atual->email,listaS->lista[i].email);
+		}
+		atual->prox = listaE;
+	}
+	return listaE;	
+}
+
+
+void ini_tListEncAlunos(TListEncAlunos* lista, int eOrd){
+	lista->lista = iniListaEncAluno();
+	lista->tam = 0;
+	lista->eOrd = eOrd;
+	lista->lista->numMatricula = 0 ; // Para listas ordenadas
+	lista->lista->prox = lista->lista; // Lista vazia lista.prox = lista 
+}
+*/
 
 

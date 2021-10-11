@@ -65,6 +65,22 @@ int main(void)
 
     printLisAluno(lista.lista, lista.tam);
 
+    noALuno = listaEnc->prox;
+    while(noALuno->prox != NULL){
+        listaEnc = noALuno->prox;
+        free(noALuno);
+        noALuno = listaEnc;
+    }
+    free(noALuno);
+
+    listaEnc = iniNoAluno();
+    for(int i = 0; i < lista.tam; i++){
+        if(incLisEncAluno(lista.lista[i], listaEnc) == FALSE)
+            printf("Alguma coisa deu errado!!!");
+    }
+    
+    printLisEncAluno(listaEnc);
+
     return 0;
 }
 
