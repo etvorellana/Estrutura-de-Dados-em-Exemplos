@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1634082222 source:d:\downloads\teste\ed\q2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<omp.h>
+	<time.h>
+	<locale.h>
+	"ferramentas.h"
+
+1634082632 source:d:\downloads\teste\ed\q2\ferramentas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1634082632 d:\downloads\teste\ed\q2\ferramentas.h
+
