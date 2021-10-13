@@ -1,0 +1,56 @@
+# depslib dependency file v1.0
+1632492094 source:d:\downloads\ed\ferramentas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1632305607 d:\downloads\ed\ferramentas.h
+
+1632305607 source:d:\downloads\ed\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1632305607 source:d:\downloads\ed\exemplo_08\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1632305607 d:\downloads\ed\exemplo_08\ferramentas.h
+
+1633369025 source:c:\users\vtrs2\desktop\assuntos da facul\ed\estrutura-de-dados-em-exemplos-master\ferramentas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1633369025 c:\users\vtrs2\desktop\assuntos da facul\ed\estrutura-de-dados-em-exemplos-master\ferramentas.h
+
+1633369025 source:c:\users\vtrs2\desktop\assuntos da facul\ed\estrutura-de-dados-em-exemplos-master\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<omp.h>
+	<time.h>
+	"ferramentas.h"
+
+1634077581 source:d:\downloads\teste\ed\ferramentas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1634075366 d:\downloads\teste\ed\ferramentas.h
+
+1634085010 source:d:\downloads\teste\ed\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<omp.h>
+	<time.h>
+	<locale.h>
+	"ferramentas.h"
+
