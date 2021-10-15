@@ -202,8 +202,7 @@ void geraAlunos(TListAlunos* lista){
 		//                  ano                       semestre               sequencial
 		matricula = (2000 + rand()%22)*100000 + (1 + rand()%2)*10000 + rand()%10000; 
 		aluno.numMatricula = matricula;
-  		strcpy(aluno.nome, "Nome SobrenomeM SobrenomeP");
-  		strcpy(aluno.email,"NSmSp@uesc.br");
+  		geraNomes(&aluno);
 		incAluno(aluno, lista);
 	}
 }
@@ -354,6 +353,91 @@ void printLisEncAluno(PNoAluno lista){
 		printf("%s;\n ", atual->email);
 	}
 	printf(" ]\n");
+}
+void geraNomes(TAluno* aluno){
+	unsigned int random; 
+	random = 1+(rand() %12);
+	switch (random)
+	{
+	case 1:
+		strcpy(aluno->nome,"Maria");
+		break;
+	case 2:
+		strcpy(aluno->nome,"José");
+		break;
+	case 3:
+		strcpy(aluno->nome,"Antônio");
+		break;
+	case 4:
+		strcpy(aluno->nome,"João");
+		break;
+	case 5:
+		strcpy(aluno->nome,"Francisco");
+		break;
+	case 6:
+		strcpy(aluno->nome,"Ana");
+		break;
+	case 7:
+		strcpy(aluno->nome,"Luiz");
+		break;
+	case 8:
+		strcpy(aluno->nome,"Paulo");
+		break;
+	case 9:
+		strcpy(aluno->nome,"Carlos");
+		break;
+	case 10:
+		strcpy(aluno->nome,"Manoel");
+		break;
+	case 11:
+		strcpy(aluno->nome,"Pedro");
+		break;
+	case 12:
+		strcpy(aluno->nome,"Francisca");
+		break;
+	}
+
+	strcpy(aluno->email,aluno->nome);
+	strcat(aluno->email,"@uesc.br");
+
+	for(int i = 0; i < 2 ; i++){
+		
+		random = 1+(rand() %8);
+		switch (random)
+		{
+		case 1:
+			strcat(aluno->nome," Silva");
+			break;
+		case 2:
+			strcat(aluno->nome," Santos");
+			break;
+		case 3:
+			strcat(aluno->nome," Souza");
+			break;
+		case 4:
+			strcat(aluno->nome," Oliveira");
+			break;
+		case 5:
+			strcat(aluno->nome," Pereira");
+			break;
+		case 6:
+			strcat(aluno->nome," Rodrigues");
+			break;
+		case 7:
+			strcat(aluno->nome," Alves");
+			break;
+		case 8:
+			strcat(aluno->nome," Costa");
+			break;
+		}
+	}
+}
+
+void printMenu(){
+	//system("cls");
+	printf("----------- LABORATORIO -----------\n\n");
+	printf("<1>Registrar Alunos\n<2>Listar Alunos\n<3>Remover Aluno\n<0>Sair\n");
+	
 }
 
 /*

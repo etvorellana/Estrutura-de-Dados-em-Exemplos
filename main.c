@@ -1,120 +1,86 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
+#include <time.h>
 
 #include "ferramentas.h"
 
+#define LSIZE 10
+
 int main(void)
 {
-    int tamLista, capLista;
-    /* capLista - Capacidade da lista.  Limite máximo de elememtos
-        que podem ser aramzenados na lista. Pode ser entendido como
-        o tamanho do array
-    */
-    capLista = LSIZE;
-    /* tamLista - Tamanho da lista
-        * tamLista == 0: Lista vazia
-        * tamLista == capLista: Lista cheia
-    */
-    tamLista = 0;
-    // Uma lista como uma array alocado estaticamente
 
-    printf("Testando Listas Lineares Sequenciais\n");
+    PNoAluno aluno1;
+    TNoAluno aluno2;
 
-    /* Vamos adicionar 3 alunos na lsita
-        Nome                    Matrícula   EMail
-        Regrano Guedes Maia     201913425   regguemai@uesc.br   
-        Mengano Martins Pereira 201913245   menmarper@uesc.br
-        Fulano Silva Oliveira   201912345   fulsiloli@uesc.br
-    */
-    //LISTA ORDENADA
-    printf("\nLISTA ORDENADA\n\n");
+    TListAlunos lista;                   // declarando a variável
+	iniListAlunos(&lista, LSIZE, FALSE); // inicializando a lista não ordenada
+	geraAlunos(&lista);                  // Prenhe a lista não ordenada
 
-    // Adicionando o primeiro elemento na lista
-    TAluno aluno;
-    TListAlunos lista;
+    TAluno aluno; 
+    
+    aluno2.numMatricula = lista.lista[0].numMatricula;
+    strcpy(aluno2.nome, lista.lista[0].nome);
+	strcpy(aluno2.email, lista.lista[0].email);
+    aluno2.prox = NULL;
 
-    iniListAlunos(&lista,capLista,TRUE);
+    PNoAluno listaEnc;
+    listaEnc = &aluno2;
 
-    aluno.numMatricula = 201913425;
-    strcpy(aluno.nome, "Regrano Guedes Maia");
-    strcpy(aluno.email, "regguemai@uesc.br");
-    if(incAluno(aluno, &lista) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno.numMatricula);
-    // Adicionando um elemento na lista com chave repetida
-    aluno.numMatricula = 201913425;
-    strcpy(aluno.nome, "Mengano Martins Pereira");
-    strcpy(aluno.email, "menmarper@uesc.br");
-    if(incAluno(aluno, &lista) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno.numMatricula);
-    // Adicionando um novo elemento na lista
-    aluno.numMatricula = 201913245;
-    strcpy(aluno.nome, "Mengano Martins Pereira");
-    strcpy(aluno.email, "menmarper@uesc.br");
-    if(incAluno(aluno, &lista) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno.numMatricula);
-    // Adicionando um novo elemento na lista
-    aluno.numMatricula = 201912345;
-    strcpy(aluno.nome, "Fulano Silva Oliveira");
-    strcpy(aluno.email, "fulsiloli@uesc.br");
-    if(incAluno(aluno, &lista) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno.numMatricula);
+    aluno1 = (PNoAluno) malloc(sizeof(TNoAluno));
+    aluno1->numMatricula = lista.lista[1].numMatricula;
+    strcpy(aluno1->nome, lista.lista[1].nome);
+	strcpy(aluno1->email, lista.lista[1].email);
+    aluno1->prox = NULL;
 
-    // Imprimindo a lista
+    listaEnc->prox = aluno1;
+
+    aluno1 = (PNoAluno) malloc(sizeof(TNoAluno));
+    aluno1->numMatricula = lista.lista[2].numMatricula;
+    strcpy(aluno1->nome, lista.lista[2].nome);
+	strcpy(aluno1->email, lista.lista[2].email);
+    aluno1->prox = NULL;
+
+    PNoAluno noALuno;
+    noALuno = listaEnc->prox;
+    noALuno->prox = aluno1;
+
+    aluno1 = (PNoAluno) malloc(sizeof(TNoAluno));
+    aluno1->numMatricula = lista.lista[3].numMatricula;
+    strcpy(aluno1->nome, lista.lista[3].nome);
+	strcpy(aluno1->email, lista.lista[3].email);
+    aluno1->prox = NULL;
+
+    noALuno = noALuno->prox;
+    noALuno->prox = aluno1;
+
+    noALuno = listaEnc;
+    do{
+        printf("%d, ", noALuno->numMatricula);
+		printf("%s, ", noALuno->nome);
+		printf("%s;\n ", noALuno->email);
+        noALuno = noALuno->prox;
+    }while(noALuno != NULL);
+
     printLisAluno(lista.lista, lista.tam);
 
-    // Removendo um elemento na lista ordenada
-    aluno.numMatricula = 201912345;
-    if(remAluno(aluno, &lista) == FALSE)
-        printf("Aluno %d não está na lista\n", aluno.numMatricula);
+    noALuno = listaEnc->prox;
+    while(noALuno->prox != NULL){
+        listaEnc = noALuno->prox;
+        free(noALuno);
+        noALuno = listaEnc;
+    }
+    free(noALuno);
 
-    // Imprimindo nova lista
-    printLisAluno(lista.lista, lista.tam);
+    listaEnc = iniNoAluno();
+    for(int i = 0; i < lista.tam; i++){
+        if(incLisEncAluno(lista.lista[i], listaEnc) == FALSE)
+            printf("Alguma coisa deu errado!!!");
+    }
+    
+    printLisEncAluno(listaEnc);
 
-    //LISTA NÃO ORDENADA
-    printf("\nLISTA NAO ORDENADA\n\n");
-    // Adicionando o primeiro elemento na lista
-    TAluno aluno1;
-    TListAlunos lista1;
-
-    iniListAlunos(&lista1,capLista,FALSE);
-
-    aluno1.numMatricula = 201913425;
-    strcpy(aluno1.nome, "Regrano Guedes Maia");
-    strcpy(aluno1.email, "regguemai@uesc.br");
-    if(incAluno(aluno1, &lista1) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno1.numMatricula);
-
-    // Adicionando um elemento na lista com chave repetida
-    aluno1.numMatricula = 201913425;
-    strcpy(aluno1.nome, "Mengano Martins Pereira");
-    strcpy(aluno1.email, "menmarper@uesc.br");
-    if(incAluno(aluno1, &lista1) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno1.numMatricula);
-
-    // Adicionando um novo elemento na lista
-    aluno1.numMatricula = 201913245;
-    strcpy(aluno1.nome, "Mengano Martins Pereira");
-    strcpy(aluno1.email, "menmarper@uesc.br");
-    if(incAluno(aluno1, &lista1) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno1.numMatricula);
-
-    // Adicionando um novo elemento na lista
-    aluno1.numMatricula = 201912345;
-    strcpy(aluno1.nome, "Fulano Silva Oliveira");
-    strcpy(aluno1.email, "fulsiloli@uesc.br");
-    if(incAluno(aluno1, &lista1) == FALSE)
-        printf("Aluno %d já está na lista\n", aluno1.numMatricula);
-
-    // Imprimindo a lista
-    printLisAluno(lista1.lista, lista1.tam);
-
-    // Removendo um elemento na lista
-    aluno1.numMatricula = 201912345;
-    if(remAluno(aluno1, &lista1) == FALSE)
-        printf("Aluno %d não está na lista\n", aluno1.numMatricula);
-
-    // Imprimindo nova lista
-    printLisAluno(lista1.lista, lista1.tam);
     return 0;
 }
+

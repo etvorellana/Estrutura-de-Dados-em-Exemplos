@@ -83,3 +83,6 @@ int remLisEncAluno(TAluno aluno, PNoAluno lista);
 PNoAluno iniNoAluno(void);
 void printLisEncAluno(PNoAluno lista);
 PNoAluno criarListEncDeListSeq(TListAlunos* listaS);
+
+void geraNomes(TAluno* aluno);
+void printMenu();

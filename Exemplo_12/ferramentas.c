@@ -207,3 +207,71 @@ void geraAlunos(TListAlunos* lista){
 		incAluno(aluno, lista);
 	}
 }
+
+void iniPilhaAlunos(TPilhaAlunos* pilha, int cap){
+	pilha->cap = cap;
+	pilha->topo = 0;
+	pilha->pilha = (TAluno*) malloc(sizeof(TAluno)*cap);
+}
+
+int incAlunoNaPilha(TAluno aluno, TPilhaAlunos* pilha){ //push ou empilha
+	if(pilha->topo < pilha->cap)
+	{
+		pilha->pilha[pilha->topo].numMatricula = aluno.numMatricula;
+		strcpy(pilha->pilha[pilha->topo].nome, aluno.nome);
+		strcpy(pilha->pilha[pilha->topo].email, aluno.email);
+		pilha->topo++;
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+int remAlunoDaPilha(TAluno* aluno, TPilhaAlunos* pilha){ //pop ou desempilha
+	if(pilha->topo > 0)
+	{
+		pilha->topo--;
+		aluno->numMatricula = pilha->pilha[pilha->topo].numMatricula;
+		strcpy(aluno->nome, pilha->pilha[pilha->topo].nome);
+		strcpy(aluno->email, pilha->pilha[pilha->topo].email);
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+void iniFilaAlunos(TFilaAlunos* fila, int cap){
+	fila->cap = cap;
+	fila->ini = 0;
+	fila->fim = 0;
+	fila->fila = (TAluno*) malloc(sizeof(TAluno)*cap);
+}
+
+int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila){	
+	if((fila->fim - fila->ini) < fila->cap){	
+		int pos = fila->fim % fila->cap;
+		fila->fila[pos].numMatricula = aluno.numMatricula;
+		strcpy(fila->fila[pos].nome, aluno.nome);
+		strcpy(fila->fila[pos].email, aluno.email);
+		fila->fim++;
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila){
+	if(fila->ini < fila->fim)
+	{
+		int pos = fila->ini%fila->cap;
+		aluno->numMatricula = fila->fila[pos].numMatricula;
+		strcpy(aluno->nome, fila->fila[pos].nome);
+		strcpy(aluno->email, fila->fila[pos].email);
+		fila->ini++;
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+

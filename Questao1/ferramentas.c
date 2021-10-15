@@ -200,10 +200,267 @@ void geraAlunos(TListAlunos* lista){
 	TAluno aluno;
 	while(lista->tam < lista->cap){
 		//                  ano                       semestre               sequencial
-		matricula = (2000 + random()%22)*100000 + (1 + random()%2)*10000 + random()%10000; 
+		matricula = (2000 + rand()%22)*100000 + (1 + rand()%2)*10000 + rand()%10000; 
 		aluno.numMatricula = matricula;
   		strcpy(aluno.nome, "Nome SobrenomeM SobrenomeP");
   		strcpy(aluno.email,"NSmSp@uesc.br");
 		incAluno(aluno, lista);
 	}
 }
+
+/*Pilas*/
+
+void iniPilhaAlunos(TPilhaAlunos* pilha, int cap){
+	pilha->cap = cap;
+	pilha->topo = 0;
+	pilha->pilha = (TAluno*) malloc(sizeof(TAluno)*cap);
+}
+
+int incAlunoNaPilha(TAluno aluno, TPilhaAlunos* pilha){ //push ou empilha
+	if(pilha->topo < pilha->cap)
+	{
+		pilha->pilha[pilha->topo].numMatricula = aluno.numMatricula;
+		strcpy(pilha->pilha[pilha->topo].nome, aluno.nome);
+		strcpy(pilha->pilha[pilha->topo].email, aluno.email);
+		pilha->topo++;
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+int remAlunoDaPilha(TAluno* aluno, TPilhaAlunos* pilha){ //pop ou desempilha
+	if(pilha->topo > 0)
+	{
+		pilha->topo--;
+		aluno->numMatricula = pilha->pilha[pilha->topo].numMatricula;
+		strcpy(aluno->nome, pilha->pilha[pilha->topo].nome);
+		strcpy(aluno->email, pilha->pilha[pilha->topo].email);
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+/*Filas*/
+
+void iniFilaAlunos(TFilaAlunos* fila, int cap){
+	fila->cap = cap;
+	fila->ini = 0;
+	fila->fim = 0;
+	fila->fila = (TAluno*) malloc(sizeof(TAluno)*cap);
+}
+
+int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila){	
+	if((fila->fim - fila->ini) < fila->cap){	
+		int pos = fila->fim % fila->cap;
+		fila->fila[pos].numMatricula = aluno.numMatricula;
+		strcpy(fila->fila[pos].nome, aluno.nome);
+		strcpy(fila->fila[pos].email, aluno.email);
+		fila->fim++;
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila){
+	if(fila->ini < fila->fim)
+	{
+		int pos = fila->ini%fila->cap;
+		aluno->numMatricula = fila->fila[pos].numMatricula;
+		strcpy(aluno->nome, fila->fila[pos].nome);
+		strcpy(aluno->email, fila->fila[pos].email);
+		fila->ini++;
+		return TRUE;
+	}else{
+		return FALSE;
+	}
+}
+
+/*Listas Enadeadas*/
+
+// Cria um ponteiro para o TNoAluno
+PNoAluno iniNoAluno(void){
+	PNoAluno no;  								
+    no = (PNoAluno) malloc(sizeof(TNoAluno)); 	
+	//no->prox = NULL;
+	no->prox = no; 							
+	return no;
+}
+
+PNoAluno buscaLisEncAluno_(PNoAluno lista, int chave){
+	PNoAluno atual = lista;
+	while(atual->prox != NULL){
+		if (atual->prox->numMatricula == chave)
+			break;
+		atual = atual->prox;
+	}
+	//return atual->prox;
+	return atual; 
+}
+
+//Versão 2 da busca, supondo que a chave faz parte de lista
+PNoAluno buscaLisEncAluno(PNoAluno lista, int chave){
+	PNoAluno atual = lista;
+	atual->numMatricula = chave;
+	while(atual->prox->numMatricula != chave){
+		atual = atual->prox;
+	}
+	return atual; 
+}
+
+int incLisEncAluno(TAluno aluno, PNoAluno lista){
+	PNoAluno pos = buscaLisEncAluno(lista, aluno.numMatricula);
+	if (pos->prox == lista){ 				//o aluno não esta na lista
+		PNoAluno novo = iniNoAluno(); //Criando um novo no
+		novo->numMatricula = aluno.numMatricula; 
+		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
+		strcpy(novo->email, aluno.email);
+		novo->prox = lista; 				//o novo para lista
+		pos->prox = novo; 					//último aponta para novo
+		return TRUE;
+	}
+	return FALSE; 							//aluno já esta na lista
+}
+
+int remLisEncAluno(TAluno aluno, PNoAluno lista){
+	PNoAluno pos = buscaLisEncAluno(lista, aluno.numMatricula);
+	if (pos->prox != lista){ 				//o aluno esta na lista
+		PNoAluno exc = pos->prox; 			//no a ser excluido
+		pos->prox = exc->prox; 				//anterior aponta para proximo
+		free(exc); 							//livera memória
+		return TRUE;
+	}
+	return FALSE; // aluno não esta na lista
+}
+
+PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
+	PNoAluno atual = lista;
+	atual->numMatricula = chave;
+	while(atual->prox->numMatricula < chave){
+		atual = atual->prox;
+	}
+	return atual; 
+}
+
+void printLisEncAluno(PNoAluno lista){
+	printf("[ \n ");
+	PNoAluno atual = lista;
+	while(atual->prox != lista)	{
+		atual = atual->prox;
+		printf("%d, ", atual->numMatricula);
+		printf("%s, ", atual->nome);
+		printf("%s;\n ", atual->email);
+	}
+	printf(" ]\n");
+}
+void geraNomes(TAluno* aluno){
+	unsigned int random; 
+	random = 1+(rand() %12);
+	switch (random)
+	{
+	case 1:
+		strcpy(aluno->nome,"Maria");
+		break;
+	case 2:
+		strcpy(aluno->nome,"José");
+		break;
+	case 3:
+		strcpy(aluno->nome,"Antônio");
+		break;
+	case 4:
+		strcpy(aluno->nome,"João");
+		break;
+	case 5:
+		strcpy(aluno->nome,"Francisco");
+		break;
+	case 6:
+		strcpy(aluno->nome,"Ana");
+		break;
+	case 7:
+		strcpy(aluno->nome,"Luiz");
+		break;
+	case 8:
+		strcpy(aluno->nome,"Paulo");
+		break;
+	case 9:
+		strcpy(aluno->nome,"Carlos");
+		break;
+	case 10:
+		strcpy(aluno->nome,"Manoel");
+		break;
+	case 11:
+		strcpy(aluno->nome,"Pedro");
+		break;
+	case 12:
+		strcpy(aluno->nome,"Francisca");
+		break;
+	}
+
+	strcpy(aluno->email,aluno->nome);
+	strcat(aluno->email,"@uesc.br");
+
+	for(int i = 0; i < 2 ; i++){
+		
+		random = 1+(rand() %8);
+		switch (random)
+		{
+		case 1:
+			strcat(aluno->nome," Silva");
+			break;
+		case 2:
+			strcat(aluno->nome," Santos");
+			break;
+		case 3:
+			strcat(aluno->nome," Souza");
+			break;
+		case 4:
+			strcat(aluno->nome," Oliveira");
+			break;
+		case 5:
+			strcat(aluno->nome," Pereira");
+			break;
+		case 6:
+			strcat(aluno->nome," Rodrigues");
+			break;
+		case 7:
+			strcat(aluno->nome," Alves");
+			break;
+		case 8:
+			strcat(aluno->nome," Costa");
+			break;
+		}
+	}
+}
+
+/*
+// Criando uma lista simplesmente encadeada com base numa lista sequencial
+PNoAluno criarListEncDeListSeq(TListAlunos* listaS){
+	PNoAluno listaE, atual; 
+	listaE = iniListaEncAluno(); 	//Criamos uma lista encadeada vazia
+	if (listaS->tam > 0){ 			// Se a lista seq não estiver vazia 
+		atual = listaE;
+		for(int i = 0; i < listaS->tam; i++){ 
+			atual->prox = (PNoAluno)malloc(sizeof(TNoAluno));
+			atual = atual->prox;
+			atual->numMatricula = listaS->lista[i].numMatricula;
+    		strcpy(atual->nome, listaS->lista[i].nome);
+    		strcpy(atual->email,listaS->lista[i].email);
+		}
+		atual->prox = listaE;
+	}
+	return listaE;	
+}
+
+
+void ini_tListEncAlunos(TListEncAlunos* lista, int eOrd){
+	lista->lista = iniListaEncAluno();
+	lista->tam = 0;
+	lista->eOrd = eOrd;
+	lista->lista->numMatricula = 0 ; // Para listas ordenadas
+	lista->lista->prox = lista->lista; // Lista vazia lista.prox = lista 
+}
+*/
+
+
