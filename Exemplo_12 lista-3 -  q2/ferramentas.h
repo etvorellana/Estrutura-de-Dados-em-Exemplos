@@ -59,3 +59,4 @@ int remAlunoDaPilha(TAluno* aluno, TPilhaAlunos* pilha);
 void iniFilaAlunos(TFilaAlunos* fila, int cap);
 int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila);
 int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila);
+void printFilaAlunos(TFilaAlunos* fila); 
