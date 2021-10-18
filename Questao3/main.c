@@ -53,8 +53,6 @@ int main(void)
     
     printf("Fila: \n");
     printLisAluno(minhaFila.fila,minhaFila.fim);
-    printf("Fila ini: %d\n",minhaFila.ini);
-    printf("Fila fim: %d\n",minhaFila.fim);
     
     printf("Pilha: \n");
     printLisAluno(minhaPilha.pilha,minhaPilha.topo);
