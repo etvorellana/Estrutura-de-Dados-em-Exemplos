@@ -16,7 +16,7 @@ int main(void)
   TAluno alunos;
   TListAlunos lista;
   TFilaAlunos fila;
-
+  
   iniListAlunos(&lista, LSIZE, FALSE);
   iniFilaAlunos(&fila, LSIZE);
 
@@ -48,8 +48,15 @@ int main(void)
         printf("Email do aluno: \n");
         fgets(alunos.email, 50, stdin);
 
-        if(incAluno(alunos,&lista) == FALSE){
-           printf("A lista está cheia, movido para espera\n");
+        if(lista.lista->numMatricula == alunos.numMatricula) {
+                printf("Aluno ja esta na lista");
+        }
+        else if(incAluno(alunos,&lista) == FALSE) {
+                printf("A lista está cheia, movido para espera\n");
+                incAlunoNaFila(alunos,&fila);
+        }
+        else {
+               incAluno(alunos, &lista);
         }
 
         system("clear");
@@ -64,7 +71,7 @@ int main(void)
         case 3:
         system("cls");
         printf(" Alunos na fila de espera\n");
-        printFilaAlunos(fila);
+        printFilaAlunos(&fila);
         break;
 
         case 4:
@@ -72,16 +79,19 @@ int main(void)
         printf("Saída do aluno\n");
         printf("Informe número de matricula:\n");
         scanf("%d", &alunos.numMatricula);
+        
+        remAluno(alunos, &lista);
 
-         if(remAluno(alunos, &lista) == FALSE){
+        if(remAluno(alunos, &lista) == FALSE) {
           printf("Aluno %d nao encontrado!\n", alunos.numMatricula);
-        }else{
-          if(fila.fim == fila.ini){
+        }
+        else {
+          if(fila.fim == fila.ini) {
             fila.fim = 0;
             fila.ini = 0;
             printf("A fila está vazia\n");
-          }else{
-            if(incAluno(fila.fila[fila.ini], &lista) == TRUE){
+          }else {
+            if(incAluno(fila.fila[fila.ini], &lista) == TRUE) {
          printf("Aluno %d pode acessar o laboratorio!\n",fila.fila[fila.ini].numMatricula);
   
           if(remAlunoDaFila(fila.fila, &fila) == TRUE){

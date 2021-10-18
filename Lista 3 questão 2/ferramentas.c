@@ -274,4 +274,15 @@ int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila){
 	}
 }
 
+void printFilaAlunos(TFilaAlunos* fila) {
+  
+  for(int i=0; i<fila->fim; i++) {
+
+    printf("%d, ", fila->fila[i].numMatricula);
+		printf("%s, ", fila->fila[i].nome);
+		printf("%s;\n ", fila->fila[i].email);
+  }
+  printf(" ]\n");
+}
+
 
