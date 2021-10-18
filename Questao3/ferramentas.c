@@ -198,7 +198,7 @@ int remAluno(TAluno aluno, TListAlunos *lista){
 void geraAlunos(TListAlunos* lista){
 	unsigned int matricula;
 	TAluno aluno;
-	while(lista->tam < (lista->cap)/2){
+	while(lista->tam < lista->cap){
 		//                  ano                       semestre               sequencial
 		matricula = (2000 + rand()%21)*100000 + (1 + rand()%2)*10000 + rand()%10000; 
 		aluno.numMatricula = matricula;

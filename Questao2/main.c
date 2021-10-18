@@ -72,8 +72,10 @@ int main(void)
             scanf("%d",&rem);
             aluno.numMatricula = rem;
             remAluno(aluno,&lista);
-            incAluno(minhaFila.fila[0],&lista);
-            remAlunoDaFila(minhaFila.fila,&minhaFila);
+            incAluno(minhaFila.fila[minhaFila.ini],&lista);
+            if(remAlunoDaFila(minhaFila.fila,&minhaFila)){
+                minhaFila.ini--;minhaFila.fim--;
+            }
             break;
         case 0:
             break;
