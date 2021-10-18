@@ -344,28 +344,6 @@ PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
 	return atual; 
 }
 
-int incLisEncAlunoOrd(TAluno aluno, PNoAluno lista){
-	PNoAluno pos = buscaLisEncAlunoOrd(lista, aluno.numMatricula);
-	if (pos->prox == lista){ 				//o aluno não esta na lista
-		PNoAluno novo = iniNoAluno(); //Criando um novo no
-		novo->numMatricula = aluno.numMatricula; 
-		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
-		strcpy(novo->email, aluno.email);
-		novo->prox = lista; 				//o novo para lista
-		pos->prox = novo; 					//último aponta para novo
-		return TRUE;
-	}else if(pos->prox->numMatricula != aluno.numMatricula){
-		PNoAluno novo = iniNoAluno(); //Criando um novo no
-		novo->numMatricula = aluno.numMatricula; 
-		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
-		strcpy(novo->email, aluno.email);
-		novo->prox = pos->prox;
-		pos->prox = novo; 					//último aponta para novo
-		return TRUE;
-	}
-	return FALSE; 							//aluno já esta na lista
-}
-
 void printLisEncAluno(PNoAluno lista){
 	printf("[ \n ");
 	PNoAluno atual = lista;
@@ -407,11 +385,4 @@ void ini_tListEncAlunos(TListEncAlunos* lista, int eOrd){
 }
 */
 
-// Cria um ponteiro para o TNoAluno
-PNoArvAluno iniNoArvAluno(void){
-	PNoArvAluno no;  								
-    no = (PNoArvAluno) malloc(sizeof(TNoArvAluno)); 	
-	no->esq = NULL;
-	no->dir = NULL;					
-	return no;
-}
+

@@ -44,37 +44,6 @@ typedef struct{
 	int eOrd;
 }TListEncAlunos;
 
-struct DNoALuno{
-	int numMatricula; 		//chave com 9 dígitos (INT_MAX	+2147483647)
-    char nome[100];   		// nome com até 99 caracteres
-    char email[100];  		// eMail com até 99 caracteres
-	struct DNoALuno *prox; 	// Endereço do próximo elemento
-	struct DNoALuno *ant; 	// Endereço do elemento anterior
-};
-
-typedef struct DNoALuno TDNoAluno;
-typedef TDNoAluno *PDNoAluno;
-
-typedef struct{
-	PDNoAluno lista; //ini
-	int tam;
-	int eOrd;
-}TListDEncAlunos;
-
-struct SNoArvAluno{
-	int numMatricula; 		//chave com 9 dígitos (INT_MAX	+2147483647
-    char nome[100];         // nome com até 99 caracteres
-    char email[100];        // eMail com até 99 caracteres
-	struct SNoArvAluno *dir;
-	struct SNoArvAluno *esq;
-};
-
-typedef struct SNoArvAluno TNoArvAluno;
-typedef TNoArvAluno *PNoArvAluno;
-
-
-
-
 // Lista não ordenada
 int buscaLisAluno(TAluno lista[], int tam, int chave);
 int incLisAluno(TAluno aluno, TAluno lista[], int *tam);
@@ -104,7 +73,7 @@ void iniFilaAlunos(TFilaAlunos* fila, int cap);
 int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila);
 int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila);
 
-//Listas simplesmente encadeadas
+//Listas simplesmente encadeada
 
 // Lista não ordenada
 PNoAluno buscaLisEncAluno(PNoAluno lista, int chave);
@@ -114,17 +83,3 @@ int remLisEncAluno(TAluno aluno, PNoAluno lista);
 PNoAluno iniNoAluno(void);
 void printLisEncAluno(PNoAluno lista);
 PNoAluno criarListEncDeListSeq(TListAlunos* listaS);
-
-//Listas duplamente encadeadas
-
-// Lista não ordenada
-PDNoAluno buscaLisDEncAluno(PDNoAluno lista, int chave);
-int incLisDEncAluno(TAluno aluno, PDNoAluno lista);
-int remLisDEncAluno(TAluno aluno, PDNoAluno lista);
-
-PDNoAluno iniNoDAluno(void);
-void printLisDEncAluno(PDNoAluno lista);
-PDNoAluno criarListDEncDeListSeq(TListAlunos* listaS);
-
-
-PNoArvAluno iniNoArvAluno(void);

@@ -11,75 +11,67 @@
 int main(void)
 {
 
-    PNoAluno aluno1;
-    TNoAluno aluno2;
-
     TListAlunos lista;                   // declarando a variável
 	iniListAlunos(&lista, LSIZE, FALSE); // inicializando a lista não ordenada
 	geraAlunos(&lista);                  // Prenhe a lista não ordenada
 
-    TAluno aluno; 
+    PNoArvAluno minhaArv;
+    minhaArv = iniNoArvAluno();
+
+    minhaArv->numMatricula = lista.lista[0].numMatricula; 
+	strcpy(minhaArv->nome, lista.lista[0].nome); 	//copia aluno para novo
+	strcpy(minhaArv->email, lista.lista[0].email);
+
+    PNoArvAluno folha;
+    folha = iniNoArvAluno();
     
-    aluno2.numMatricula = lista.lista[0].numMatricula;
-    strcpy(aluno2.nome, lista.lista[0].nome);
-	strcpy(aluno2.email, lista.lista[0].email);
-    aluno2.prox = NULL;
+    folha->numMatricula = lista.lista[1].numMatricula; 
+	strcpy(folha->nome, lista.lista[1].nome); 	//copia aluno para novo
+	strcpy(folha->email, lista.lista[1].email);
 
-    PNoAluno listaEnc;
-    listaEnc = &aluno2;
+    minhaArv->esq = folha;
 
-    aluno1 = (PNoAluno) malloc(sizeof(TNoAluno));
-    aluno1->numMatricula = lista.lista[1].numMatricula;
-    strcpy(aluno1->nome, lista.lista[1].nome);
-	strcpy(aluno1->email, lista.lista[1].email);
-    aluno1->prox = NULL;
-
-    listaEnc->prox = aluno1;
-
-    aluno1 = (PNoAluno) malloc(sizeof(TNoAluno));
-    aluno1->numMatricula = lista.lista[2].numMatricula;
-    strcpy(aluno1->nome, lista.lista[2].nome);
-	strcpy(aluno1->email, lista.lista[2].email);
-    aluno1->prox = NULL;
-
-    PNoAluno noALuno;
-    noALuno = listaEnc->prox;
-    noALuno->prox = aluno1;
-
-    aluno1 = (PNoAluno) malloc(sizeof(TNoAluno));
-    aluno1->numMatricula = lista.lista[3].numMatricula;
-    strcpy(aluno1->nome, lista.lista[3].nome);
-	strcpy(aluno1->email, lista.lista[3].email);
-    aluno1->prox = NULL;
-
-    noALuno = noALuno->prox;
-    noALuno->prox = aluno1;
-
-    noALuno = listaEnc;
-    do{
-        printf("%d, ", noALuno->numMatricula);
-		printf("%s, ", noALuno->nome);
-		printf("%s;\n ", noALuno->email);
-        noALuno = noALuno->prox;
-    }while(noALuno != NULL);
-
-    printLisAluno(lista.lista, lista.tam);
-
-    noALuno = listaEnc->prox;
-    while(noALuno->prox != NULL){
-        listaEnc = noALuno->prox;
-        free(noALuno);
-        noALuno = listaEnc;
-    }
-    free(noALuno);
-
-    listaEnc = iniNoAluno();
-    for(int i = 0; i < lista.tam; i++){
-        if(incLisEncAluno(lista.lista[i], listaEnc) == FALSE)
-            printf("Alguma coisa deu errado!!!");
-    }
+    folha = iniNoArvAluno();
     
-    printLisEncAluno(listaEnc);
+    folha->numMatricula = lista.lista[2].numMatricula; 
+	strcpy(folha->nome, lista.lista[2].nome); 	//copia aluno para novo
+	strcpy(folha->email, lista.lista[2].email);
+
+    minhaArv->dir = folha;
+
+    folha = iniNoArvAluno();
+    
+    folha->numMatricula = lista.lista[3].numMatricula; 
+	strcpy(folha->nome, lista.lista[3].nome); 	//copia aluno para novo
+	strcpy(folha->email, lista.lista[3].email);
+
+    minhaArv->dir->esq = folha;
+
+    folha = iniNoArvAluno();
+    
+    folha->numMatricula = lista.lista[4].numMatricula; 
+	strcpy(folha->nome, lista.lista[4].nome); 	//copia aluno para novo
+	strcpy(folha->email, lista.lista[4].email);
+
+    minhaArv->dir->dir = folha;
+
+    folha = iniNoArvAluno();
+    
+    folha->numMatricula = lista.lista[5].numMatricula; 
+	strcpy(folha->nome, lista.lista[5].nome); 	//copia aluno para novo
+	strcpy(folha->email, lista.lista[5].email);
+
+    minhaArv->esq->dir = folha;
+
+    folha = iniNoArvAluno();
+    
+    folha->numMatricula = lista.lista[6].numMatricula; 
+	strcpy(folha->nome, lista.lista[6].nome); 	//copia aluno para novo
+	strcpy(folha->email, lista.lista[6].email);
+
+    minhaArv->esq->esq = folha;
+
+    
 
     return 0;
 }
