@@ -284,40 +284,62 @@ int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila){
 PNoAluno iniNoAluno(void){
 	PNoAluno no;  								
     no = (PNoAluno) malloc(sizeof(TNoAluno)); 	
-	//no->prox = NULL;
-	no->prox = no; 							
+	no->prox = NULL;
 	return no;
 }
 
-PNoAluno buscaLisEncAluno_(PNoAluno lista, int chave){
-	PNoAluno atual = lista;
-	while(atual->prox != NULL){
-		if (atual->prox->numMatricula == chave)
-			break;
-		atual = atual->prox;
-	}
-	//return atual->prox;
-	return atual; 
-}
-
-//Versão 2 da busca, supondo que a chave faz parte de lista
+//  Busca, supondo que a chave faz parte de lista e 
+// que a list é circular
 PNoAluno buscaLisEncAluno(PNoAluno lista, int chave){
+	lista->numMatricula = chave;
 	PNoAluno atual = lista;
-	atual->numMatricula = chave;
 	while(atual->prox->numMatricula != chave){
 		atual = atual->prox;
 	}
 	return atual; 
 }
 
+PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
+	lista->numMatricula = chave;
+	PNoAluno atual = lista;
+	while(atual->prox->numMatricula < chave){
+		atual = atual->prox;
+	}
+	return atual; 
+}
+
+
 int incLisEncAluno(TAluno aluno, PNoAluno lista){
 	PNoAluno pos = buscaLisEncAluno(lista, aluno.numMatricula);
 	if (pos->prox == lista){ 				//o aluno não esta na lista
-		PNoAluno novo = iniNoAluno(); //Criando um novo no
+		PNoAluno novo = iniNoAluno(); 		//Criando um novo no
 		novo->numMatricula = aluno.numMatricula; 
 		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
 		strcpy(novo->email, aluno.email);
-		novo->prox = lista; 				//o novo para lista
+		novo->prox = lista; 				//novo no final da lista
+		pos->prox = novo; 					//último aponta para novo
+		return TRUE;
+	}
+	return FALSE; 							//aluno já esta na lista
+}
+
+int incLisEncAlunoOrd(TAluno aluno, PNoAluno lista){
+	PNoAluno pos = buscaLisEncAlunoOrd(lista, aluno.numMatricula);
+	//o aluno não esta na lista e é maior que o maior
+	if (pos->prox == lista){ 				
+		PNoAluno novo = iniNoAluno(); 		//Criando um novo no
+		novo->numMatricula = aluno.numMatricula; 
+		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
+		strcpy(novo->email, aluno.email);
+		novo->prox = lista; 				//novo no final da lista
+		pos->prox = novo; 					//último aponta para novo
+		return TRUE;
+	}else if(pos->prox->numMatricula != aluno.numMatricula){
+		PNoAluno novo = iniNoAluno(); 		//Criando um novo no
+		novo->numMatricula = aluno.numMatricula; 
+		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
+		strcpy(novo->email, aluno.email);
+		novo->prox = pos->prox;
 		pos->prox = novo; 					//último aponta para novo
 		return TRUE;
 	}
@@ -335,13 +357,16 @@ int remLisEncAluno(TAluno aluno, PNoAluno lista){
 	return FALSE; // aluno não esta na lista
 }
 
-PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
-	PNoAluno atual = lista;
-	atual->numMatricula = chave;
-	while(atual->prox->numMatricula < chave){
-		atual = atual->prox;
+int remLisEncAlunoOrd(TAluno aluno, PNoAluno lista){
+	PNoAluno pos = buscaLisEncAlunoOrd(lista, aluno.numMatricula);
+	//o aluno esta na lista
+	if (pos->prox != lista && pos->prox->numMatricula == aluno.numMatricula){ 				
+		PNoAluno exc = pos->prox; 			//no a ser excluido
+		pos->prox = exc->prox; 				//anterior aponta para proximo
+		free(exc); 							//livera memória
+		return TRUE;
 	}
-	return atual; 
+	return FALSE; // aluno não esta na lista
 }
 
 void printLisEncAluno(PNoAluno lista){
@@ -354,6 +379,38 @@ void printLisEncAluno(PNoAluno lista){
 		printf("%s;\n ", atual->email);
 	}
 	printf(" ]\n");
+}
+
+void iniListEncAlunos(TListEncAlunos* lista, int eOrd){
+	lista->lista = iniNoAluno();
+	lista->eOrd = eOrd;
+	lista->lista->numMatricula = 0 ; // Para listas ordenadas
+	lista->lista->prox = lista->lista; // Lista vazia lista.prox = lista 
+}
+
+
+int buscaAlunoEnc(TListEncAlunos *lista, int chave){
+	if (lista->eOrd == TRUE)
+		return buscaLisEncAlunoOrd (lista->lista, chave);
+	else{
+		return buscaLisEncAluno(lista->lista, chave);
+	}
+}
+
+int incAlunoEnc(TAluno aluno, TListEncAlunos *lista){
+	if (lista->eOrd == TRUE)
+		return incLisEncAlunoOrd(aluno, lista->lista);
+	else
+		return incLisEncAluno(aluno, lista->lista);
+
+}
+
+int remAlunoEnc(TAluno aluno, TListEncAlunos *lista){
+	if (lista->eOrd == TRUE)
+		return remLisEncAlunoOrd(aluno, lista->lista);
+	else
+		return remLisEncAluno(aluno, lista->lista);
+
 }
 
 /*
@@ -376,13 +433,7 @@ PNoAluno criarListEncDeListSeq(TListAlunos* listaS){
 }
 
 
-void ini_tListEncAlunos(TListEncAlunos* lista, int eOrd){
-	lista->lista = iniListaEncAluno();
-	lista->tam = 0;
-	lista->eOrd = eOrd;
-	lista->lista->numMatricula = 0 ; // Para listas ordenadas
-	lista->lista->prox = lista->lista; // Lista vazia lista.prox = lista 
-}
+
 */
 
 

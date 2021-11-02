@@ -530,98 +530,39 @@ PNoArvAluno buscaArvAluno(PNoArvAluno raiz, int chave){
 	return atual;
 }
 
-PNoArvAluno buscaArvAlunoPai(PNoArvAluno raiz, int chave, PNoArvAluno *pai){
-	PNoArvAluno atual = raiz;
-	*pai = NULL;
-	while(atual != NULL && atual->numMatricula != chave){
-		*pai = atual;
-		if(chave < atual->numMatricula)
-			atual = atual->esq;
-		else
-			atual = atual->dir;
+
+void printArvAluno_1(PNoArvAluno raiz){
+	if(raiz != NULL){
+		//printf("%d ", raiz->numMatricula);
+        //printf(" - L:[ ");
+		printf("%d ", raiz->numMatricula);
+        printArvAluno_1 (raiz->esq);
+        //printf(" ] - R:[ ");
+        printArvAluno_1(raiz->dir);
+        //printf(" ]");
 	}
-	return atual;
-}
- 
-int remArvAluno(TAluno aluno, PNoArvAluno *raiz){
-	PNoArvAluno pai, no, p, q;
-	no = buscaArvAlunoPai(*raiz, aluno.numMatricula, &pai);
-	if(no==NULL) 
-		return FALSE; // não tem esse chave na árvore
-	if(no->esq == NULL || no->dir == NULL){ // se for um no de grau 0 ou 1
-		if(no->esq == NULL){ //grau 1 com subarvore a direita
-			q = no->dir; 
-		}else{ //grau 0 ou grau 1 com subarvore a esquerda
-			q = no->esq;
-		}
-	}else{  //é um no de grau 2
-		// procurando o no mais a direita da subárvore da esquerda
-		p = no;
-		q = no->esq;
-		while(q->dir != NULL){
-			p = q;
-			q = q->dir;
-		}
-		if(p != no){
-			p->dir = q->esq;
-			q->esq = no->esq;
-		}
-		q->dir = no->dir;
-	}
-	if(pai==NULL){
-		free(no);
-		*raiz = q;
-		return TRUE;
-	}
-	if(aluno.numMatricula < pai->numMatricula)
-		pai->esq = q;
-	else
-		pai->dir = q;
-	free(no);
-	return(TRUE);
 }
 
-void printArvAluno(PNoArvAluno raiz, int modo){
-	switch (modo%10)
-	{
-		case 0:
-			printf("[ ");
-			if(raiz != NULL){
-				printf("%d ", raiz->numMatricula);
-        		printf(" - L: ");
-        		printArvAluno(raiz->esq, modo+10);
-        		printf(" - R: ");
-        		printArvAluno(raiz->dir, modo+10);
-			}
-			if(modo >= 10)
-				printf(" ] ");
-			else
-				printf(" ]\n");
-			break;
-		case 1:
-			if(modo < 10)
-				printf("[ ");
-			if(raiz != NULL){
-				printArvAluno(raiz->esq, modo+10);
-				printf("%d, ", raiz->numMatricula);
-        		printArvAluno(raiz->dir, modo+10);
-			}
-			if(modo < 10)
-				printf(" ]\n");
-			break;
-
-		default:
-			if(modo < 10)
-				printf("[ ");
-			if(raiz != NULL){
-				printArvAluno(raiz->dir, modo+10);
-				printf("%d, ", raiz->numMatricula);
-        		printArvAluno(raiz->esq, modo+10);
-			}
-			if(modo < 10)
-				printf(" ]\n");
-			break;
+void printArvAluno_2(PNoArvAluno raiz){
+	if(raiz != NULL){
+		//printf("%d ", raiz->numMatricula);
+        //printf(" - L:[ ");
+        printArvAluno_2 (raiz->esq);
+		printf("%d ", raiz->numMatricula);
+        //printf(" ] - R:[ ");
+        printArvAluno_2(raiz->dir);
+        //printf(" ]");
 	}
-	
+}
 
+void printArvAluno_3(PNoArvAluno raiz){
+	if(raiz != NULL){
+		//printf("%d ", raiz->numMatricula);
+        //printf(" - L:[ ");
+        printArvAluno_3 (raiz->dir);
+		printf("%d ", raiz->numMatricula);
+        //printf(" ] - R:[ ");
+        printArvAluno_3(raiz->esq);
+        //printf(" ]");
+	}
 }

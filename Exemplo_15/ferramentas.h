@@ -40,8 +40,40 @@ typedef TNoAluno *PNoAluno;
 
 typedef struct{
 	PNoAluno lista; //ini
+	int tam;
 	int eOrd;
 }TListEncAlunos;
+
+struct DNoALuno{
+	int numMatricula; 		//chave com 9 dígitos (INT_MAX	+2147483647)
+    char nome[100];   		// nome com até 99 caracteres
+    char email[100];  		// eMail com até 99 caracteres
+	struct DNoALuno *prox; 	// Endereço do próximo elemento
+	struct DNoALuno *ant; 	// Endereço do elemento anterior
+};
+
+typedef struct DNoALuno TDNoAluno;
+typedef TDNoAluno *PDNoAluno;
+
+typedef struct{
+	PDNoAluno lista; //ini
+	int tam;
+	int eOrd;
+}TListDEncAlunos;
+
+struct SNoArvAluno{
+	int numMatricula; 		//chave com 9 dígitos (INT_MAX	+2147483647
+    char nome[100];         // nome com até 99 caracteres
+    char email[100];        // eMail com até 99 caracteres
+	struct SNoArvAluno *dir;
+	struct SNoArvAluno *esq;
+};
+
+typedef struct SNoArvAluno TNoArvAluno;
+typedef TNoArvAluno *PNoArvAluno;
+
+
+
 
 // Lista não ordenada
 int buscaLisAluno(TAluno lista[], int tam, int chave);
@@ -72,27 +104,35 @@ void iniFilaAlunos(TFilaAlunos* fila, int cap);
 int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila);
 int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila);
 
-//Listas simplesmente encadeada
+//Listas simplesmente encadeadas
 
 // Lista não ordenada
 PNoAluno buscaLisEncAluno(PNoAluno lista, int chave);
 int incLisEncAluno(TAluno aluno, PNoAluno lista);
 int remLisEncAluno(TAluno aluno, PNoAluno lista);
 
-//Lista ordenada
-PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave);
-int incLisEncAlunoOrd(TAluno aluno, PNoAluno lista);
-int remLisEncAlunoOrd(TAluno aluno, PNoAluno lista);
-
 PNoAluno iniNoAluno(void);
 void printLisEncAluno(PNoAluno lista);
-
-void iniListEncAlunos(TListEncAlunos* lista, int eOrd);
-int buscaAlunoEnc(TListEncAlunos *lista, int chave);
-int incAlunoEnc(TAluno aluno, TListEncAlunos *lista);
-int remAlunoEnc(TAluno aluno, TListEncAlunos *lista);
-
-
-
-
 PNoAluno criarListEncDeListSeq(TListAlunos* listaS);
+
+//Listas duplamente encadeadas
+
+// Lista não ordenada
+PDNoAluno buscaLisDEncAluno(PDNoAluno lista, int chave);
+int incLisDEncAluno(TAluno aluno, PDNoAluno lista);
+int remLisDEncAluno(TAluno aluno, PDNoAluno lista);
+
+PDNoAluno iniNoDAluno(void);
+void printLisDEncAluno(PDNoAluno lista);
+PDNoAluno criarListDEncDeListSeq(TListAlunos* listaS);
+
+
+PNoArvAluno iniNoArvAluno(void);
+PNoArvAluno buscaArvAlunoRec(PNoArvAluno raiz, int chave);
+PNoArvAluno buscaArvAluno(PNoArvAluno raiz, int chave);
+int incArvAlunoRec(TAluno aluno, PNoArvAluno *raiz);
+int incArvAluno(TAluno aluno, PNoArvAluno *raiz);
+int remArvAluno(TAluno aluno, PNoArvAluno *raiz); 
+void printArvAluno_1(PNoArvAluno raiz); 
+void printArvAluno_2(PNoArvAluno raiz); 
+void printArvAluno_3(PNoArvAluno raiz); 

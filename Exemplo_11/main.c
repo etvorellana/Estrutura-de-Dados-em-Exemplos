@@ -14,7 +14,7 @@ int main(void)
     int index;          // para escolha de elementos aleatorios
     int qIn, qOut;      // Variáveis para testar se a busca funcionou
     int n;              //índice retornado pela busca
-    
+    unsigned int seed = time(NULL); //gerando uma semente para os testes
 	/*
         Criamos uma lista Linear de Alocação sequencial para
         utilizar como referência e fonte de dados para testar
@@ -48,7 +48,7 @@ int main(void)
         garanta a mesma sequencia de números aleatórios em 
         todos os testes
     */
-    unsigned int seed = time(NULL); //gerando uma semente para os testes
+    
     srand(seed); // definindo a semente do sequencia rand
 	start = omp_get_wtime(); // Iniciando o cronometro
     // enquanto a lista não estiver cheia  

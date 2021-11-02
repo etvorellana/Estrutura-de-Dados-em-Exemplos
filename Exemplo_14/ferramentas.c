@@ -415,67 +415,43 @@ PNoArvAluno iniNoArvAluno(void){
 	no->dir = NULL;					
 	return no;
 }
-
-void cpAlunoNaFolha(TAluno aluno, PNoArvAluno folha){
+void cpAluno2NaFolha(TAluno aluno, PNoArvAluno folha){
 	folha->numMatricula = aluno.numMatricula; 
 	strcpy(folha->nome, aluno.nome); 	//copia aluno para novo
 	strcpy(folha->email, aluno.email);
 	return;
 }
 
-
-/* 
-	Incluir um aluno numa árvore binária de busca
-*/
-int incArvAlunoRec(TAluno aluno, PNoArvAluno *raiz){
+int incArvAlunoRec(TAluno aluno, PNoArvAluno arv){
 	PNoArvAluno folha;
-	if (*raiz == NULL){ // se a árvore for vazia
-		// Cria um nó folha
-		folha = iniNoArvAluno();  // verificação de alocação 
-		// Copia as informações do aluno neste nó
-		cpAlunoNaFolha(aluno, folha);
-		// Faz a raiz da árvore ser o novo nó
-		*raiz = folha;
-		return TRUE; // o aluno foi incluído na árvore
-	}else{ // Caso contrario, tem alguma coisa na árvore
-		// para simpleifica a notação, copio o endereço do nó raiz
-		PNoArvAluno no = *raiz; // para o ponteiro no
-		/* Se a matrícula do aluno que se quer incluir for maior
-		   que a a matrícula da raiz
-		*/
-		if(aluno.numMatricula > no->numMatricula)
-			// incluir na subárvore da direita
-			return incArvAlunoRec(aluno, &(no->dir));
-		else // se não
-			/* Se a matrícula do aluno que se quer incluir for
-		       menor que a a matrícula da raiz
-			*/
-			if(aluno.numMatricula < no->numMatricula)
-				// incluir na subárvore da esquerda
-				return incArvAlunoRec(aluno, &(no->esq));
-			else //Se não
-				/* Então a matrícula do nó é igual a dp aluno
-				   que se deseja incluir e neste casso retorna
-				*/
-				return FALSE; //O aluno não foi incluido
-	}
+	if (arv == NULL){
+		folha = iniNoArvAluno();
+		cpAluno2NaFolha(aluno, folha);
+		arv = folha;
+		return TRUE;
+	}else if(aluno.numMatricula > arv->numMatricula)
+		return incArvAlunoRec(aluno, arv->dir);
+	else 
+		if(aluno.numMatricula < arv->numMatricula)
+			return incArvAlunoRec(aluno, arv->esq);
+		else 
+			return FALSE; 
 }
 
-// Versão não recursiva do inclusão de um aluno na árvore
-int incArvAluno(TAluno aluno, PNoArvAluno *raiz){
+int incArvAluno(TAluno aluno, PNoArvAluno arv){
 	PNoArvAluno atual, folha;
-	if (*raiz == NULL){
+	if (arv == NULL){
 		folha = iniNoArvAluno();
-		cpAlunoNaFolha(aluno, folha);
-		*raiz = folha;
+		cpAluno2NaFolha(aluno, folha);
+		arv = folha;
 		return TRUE;
 	}else{
-		atual = *raiz;
+		atual = arv;
 		while(TRUE){
 			if(aluno.numMatricula > atual->numMatricula){
 				if(atual->dir == NULL){
 					folha = iniNoArvAluno();
-					cpAlunoNaFolha(aluno, folha);
+					cpAluno2NaFolha(aluno, folha);
 					atual->dir = folha;
 					return TRUE;
 				}else{
@@ -486,11 +462,11 @@ int incArvAluno(TAluno aluno, PNoArvAluno *raiz){
 				if(aluno.numMatricula < atual->numMatricula){
 					if(atual->esq == NULL){
 						folha = iniNoArvAluno();
-						cpAlunoNaFolha(aluno, folha);
+						cpAluno2NaFolha(aluno, folha);
 						atual->esq = folha;
 						return TRUE;
 					}else{
-						atual = atual->esq;
+						atual = atual->dir;
 						continue;
 					}
 				}else{
@@ -499,129 +475,4 @@ int incArvAluno(TAluno aluno, PNoArvAluno *raiz){
 			}
 		}
 	}
-}
-
-PNoArvAluno buscaArvAlunoRec(PNoArvAluno raiz, int chave){
-	/* Se for uma árvores vazia ou se for o nó que estou 
-	   procurado:
-	*/
-	if(raiz == NULL || raiz->numMatricula == chave)
-		return raiz; // Retorna o nó
-	/* se não, se a chave que estou procurando for menor
-	   que a chave do nó
-	*/
-	else if(chave < raiz->numMatricula)
-		//procura na subárvore da esquerda
-		return buscaArvAlunoRec(raiz->esq, chave);
-	else // Se não, (então é maior) 
-	    //procura na subárvore da direita
-		return buscaArvAlunoRec(raiz->dir, chave);
-}
-
-// Versão não recursiva de busca de um aluno na árvore 
-PNoArvAluno buscaArvAluno(PNoArvAluno raiz, int chave){
-	PNoArvAluno atual = raiz;
-	while(atual != NULL && atual->numMatricula != chave){
-		if(chave < atual->numMatricula)
-			atual = atual->esq;
-		else
-			atual = atual->dir;
-	}
-	return atual;
-}
-
-PNoArvAluno buscaArvAlunoPai(PNoArvAluno raiz, int chave, PNoArvAluno *pai){
-	PNoArvAluno atual = raiz;
-	*pai = NULL;
-	while(atual != NULL && atual->numMatricula != chave){
-		*pai = atual;
-		if(chave < atual->numMatricula)
-			atual = atual->esq;
-		else
-			atual = atual->dir;
-	}
-	return atual;
-}
- 
-int remArvAluno(TAluno aluno, PNoArvAluno *raiz){
-	PNoArvAluno pai, no, p, q;
-	no = buscaArvAlunoPai(*raiz, aluno.numMatricula, &pai);
-	if(no==NULL) 
-		return FALSE; // não tem esse chave na árvore
-	if(no->esq == NULL || no->dir == NULL){ // se for um no de grau 0 ou 1
-		if(no->esq == NULL){ //grau 1 com subarvore a direita
-			q = no->dir; 
-		}else{ //grau 0 ou grau 1 com subarvore a esquerda
-			q = no->esq;
-		}
-	}else{  //é um no de grau 2
-		// procurando o no mais a direita da subárvore da esquerda
-		p = no;
-		q = no->esq;
-		while(q->dir != NULL){
-			p = q;
-			q = q->dir;
-		}
-		if(p != no){
-			p->dir = q->esq;
-			q->esq = no->esq;
-		}
-		q->dir = no->dir;
-	}
-	if(pai==NULL){
-		free(no);
-		*raiz = q;
-		return TRUE;
-	}
-	if(aluno.numMatricula < pai->numMatricula)
-		pai->esq = q;
-	else
-		pai->dir = q;
-	free(no);
-	return(TRUE);
-}
-
-void printArvAluno(PNoArvAluno raiz, int modo){
-	switch (modo%10)
-	{
-		case 0:
-			printf("[ ");
-			if(raiz != NULL){
-				printf("%d ", raiz->numMatricula);
-        		printf(" - L: ");
-        		printArvAluno(raiz->esq, modo+10);
-        		printf(" - R: ");
-        		printArvAluno(raiz->dir, modo+10);
-			}
-			if(modo >= 10)
-				printf(" ] ");
-			else
-				printf(" ]\n");
-			break;
-		case 1:
-			if(modo < 10)
-				printf("[ ");
-			if(raiz != NULL){
-				printArvAluno(raiz->esq, modo+10);
-				printf("%d, ", raiz->numMatricula);
-        		printArvAluno(raiz->dir, modo+10);
-			}
-			if(modo < 10)
-				printf(" ]\n");
-			break;
-
-		default:
-			if(modo < 10)
-				printf("[ ");
-			if(raiz != NULL){
-				printArvAluno(raiz->dir, modo+10);
-				printf("%d, ", raiz->numMatricula);
-        		printArvAluno(raiz->esq, modo+10);
-			}
-			if(modo < 10)
-				printf(" ]\n");
-			break;
-	}
-	
-
 }
