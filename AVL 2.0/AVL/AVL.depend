@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1638323800 source:d:\downloads\teste\ed\avl\avl\ferramentas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+
+1638323815 d:\downloads\teste\ed\avl\avl\ferramentas.h
+
+1638324122 source:d:\downloads\teste\ed\avl\avl\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ferramentas.h"
+	<locale.h>
+	<time.h>
+
