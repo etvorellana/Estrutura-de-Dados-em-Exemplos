@@ -5,11 +5,11 @@
 #define ORDEM 1
 #define POS_ORDEM 2
 
-// Armazenando as informa√ß√µes de um aluno
+// Armazenando as informaÁıes de um aluno
 typedef struct{
-    int numMatricula; //chave com 9 d√≠gitos (INT_MAX	+2147483647)
-    char nome[100];   // nome com at√© 99 caracteres
-    char email[100];  // eMail com at√© 99 caracteres
+    int numMatricula; //chave com 9 dÌgitos (INT_MAX	+2147483647)
+    char nome[100];   // nome com atÈ 99 caracteres
+    char email[100];  // eMail com atÈ 99 caracteres
 } TAluno;
 
 typedef struct{
@@ -33,10 +33,10 @@ typedef struct{
 }TFilaAlunos; 		//first in first out - fifo
 
 struct SNoALuno{
-	int numMatricula; 		//chave com 9 d√≠gitos (INT_MAX	+2147483647)
-    char nome[100];   		// nome com at√© 99 caracteres
-    char email[100];  		// eMail com at√© 99 caracteres
-	struct SNoALuno *prox; 	// Endere√ßo do pr√≥ximo elemento
+	int numMatricula; 		//chave com 9 dÌgitos (INT_MAX	+2147483647)
+    char nome[100];   		// nome com atÈ 99 caracteres
+    char email[100];  		// eMail com atÈ 99 caracteres
+	struct SNoALuno *prox; 	// EndereÁo do prÛximo elemento
 };
 
 typedef struct SNoALuno TNoAluno;
@@ -49,11 +49,11 @@ typedef struct{
 }TListEncAlunos;
 
 struct DNoALuno{
-	int numMatricula; 		//chave com 9 d√≠gitos (INT_MAX	+2147483647)
-    char nome[100];   		// nome com at√© 99 caracteres
-    char email[100];  		// eMail com at√© 99 caracteres
-	struct DNoALuno *prox; 	// Endere√ßo do pr√≥ximo elemento
-	struct DNoALuno *ant; 	// Endere√ßo do elemento anterior
+	int numMatricula; 		//chave com 9 dÌgitos (INT_MAX	+2147483647)
+    char nome[100];   		// nome com atÈ 99 caracteres
+    char email[100];  		// eMail com atÈ 99 caracteres
+	struct DNoALuno *prox; 	// EndereÁo do prÛximo elemento
+	struct DNoALuno *ant; 	// EndereÁo do elemento anterior
 };
 
 typedef struct DNoALuno TDNoAluno;
@@ -66,9 +66,9 @@ typedef struct{
 }TListDEncAlunos;
 
 struct SNoArvAluno{
-	int numMatricula; 		//chave com 9 d√≠gitos (INT_MAX	+2147483647
-    char nome[100];         // nome com at√© 99 caracteres
-    char email[100];        // eMail com at√© 99 caracteres
+	int numMatricula; 		//chave com 9 dÌgitos (INT_MAX	+2147483647
+    char nome[100];         // nome com atÈ 99 caracteres
+    char email[100];        // eMail com atÈ 99 caracteres
 	struct SNoArvAluno *dir;
 	struct SNoArvAluno *esq;
 	int altura;
@@ -77,7 +77,7 @@ struct SNoArvAluno{
 typedef struct SNoArvAluno TNoArvAluno;
 typedef TNoArvAluno *PNoArvAluno;
 
-// Lista n√£o ordenada
+// Lista n„o ordenada
 int buscaLisAluno(TAluno lista[], int tam, int chave);
 int incLisAluno(TAluno aluno, TAluno lista[], int *tam);
 int remLisAluno(TAluno aluno, TAluno lista[], int *tam);
@@ -90,14 +90,14 @@ int remLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam);
 void printLisAluno(TAluno lista[], int tam);
 void geraAlunos(TListAlunos* lista);
 
-// Para trabalhar com Lista Sequenciais de Aloca√ß√£o Sequencial 
+// Para trabalhar com Lista Sequenciais de AlocaÁ„o Sequencial
 void iniListAlunos(TListAlunos* list, int cap, int eOrd);
 int buscaAluno(TListAlunos *lista, int chave);
 int incAluno(TAluno aluno, TListAlunos *lista);
 int remAluno(TAluno aluno, TListAlunos *lista);
 
 // Pilhas
-void iniPilhaAlunos(TPilhaAlunos* pilha, int cap); 
+void iniPilhaAlunos(TPilhaAlunos* pilha, int cap);
 int incAlunoNaPilha(TAluno aluno, TPilhaAlunos* pilha);
 int remAlunoDaPilha(TAluno* aluno, TPilhaAlunos* pilha);
 
@@ -108,7 +108,7 @@ int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila);
 
 //Listas simplesmente encadeadas
 
-// Lista n√£o ordenada
+// Lista n„o ordenada
 PNoAluno buscaLisEncAluno(PNoAluno lista, int chave);
 int incLisEncAluno(TAluno aluno, PNoAluno lista);
 int remLisEncAluno(TAluno aluno, PNoAluno lista);
@@ -119,7 +119,7 @@ PNoAluno criarListEncDeListSeq(TListAlunos* listaS);
 
 //Listas duplamente encadeadas
 
-// Lista n√£o ordenada
+// Lista n„o ordenada
 PDNoAluno buscaLisDEncAluno(PDNoAluno lista, int chave);
 int incLisDEncAluno(TAluno aluno, PDNoAluno lista);
 int remLisDEncAluno(TAluno aluno, PDNoAluno lista);

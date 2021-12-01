@@ -5,23 +5,23 @@
 #include "ferramentas.h"
 
 /*
-Implementa a busca numa lista linear de aloca√ß√£o sequencial
-do tipo TAluno. Nesta fun√ß√£o se trabalha com uma lista 
-definida como um array de forma est√°tica. 
+Implementa a busca numa lista linear de alocaÁ„o sequencial
+do tipo TAluno. Nesta funÁ„o se trabalha com uma lista
+definida como um array de forma est·tica.
 Entrada:
-- lista: Uma lista sequencial est√°tica na forma de uma refer√™ncia 
-	um array de tipo tAluno. Nesta implementa√ß√£o se assume que a chave
+- lista: Uma lista sequencial est·tica na forma de uma referÍncia
+	um array de tipo tAluno. Nesta implementaÁ„o se assume que a chave
     procurada foi copiada no final da lista;
-- tam: Tamanho da lista, ou seja os √≠ndices dos elementos da lista
-	v√£o de 0 at√© tam-1. A chave procurada deve ter sido copiada para
-    o elemento de √≠ndice tam, que n√£o pertence √† lista; 
-- chave: N√∫mero de matr√≠cula do aluno que est√° sendo procurado. 
-	Para evitar ambiguidades, sup√µe-se que todas as chaves s√£o
+- tam: Tamanho da lista, ou seja os Ìndices dos elementos da lista
+	v„o de 0 atÈ tam-1. A chave procurada deve ter sido copiada para
+    o elemento de Ìndice tam, que n„o pertence ‡ lista;
+- chave: N˙mero de matrÌcula do aluno que est· sendo procurado.
+	Para evitar ambiguidades, supıe-se que todas as chaves s„o
 	distintas;
-sa√≠da:
-- A fun√ß√£o retorna o √≠ndice da lista que possui a chave procurada.
-	Caso a chave n√£o perten√ßa a nenhum dos elementos da lista a 
-	fun√ß√£o retorna tam;
+saÌda:
+- A funÁ„o retorna o Ìndice da lista que possui a chave procurada.
+	Caso a chave n„o pertenÁa a nenhum dos elementos da lista a
+	funÁ„o retorna tam;
 */
 
 int buscaLisAluno(TAluno lista[], int tam, int chave)
@@ -34,7 +34,7 @@ int buscaLisAluno(TAluno lista[], int tam, int chave)
 }
 
 int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
-{	
+{
 	int min = 0, max = tam, i;
 	while (min != max)	{
 		i = (max + min) / 2;
@@ -43,34 +43,34 @@ int buscaLisAlunoOrd(TAluno lista[], int tam, int chave)
 		else
 			if (lista[i].numMatricula > chave)
 				max = i;
-			else			
+			else
 				return i;
 	}
 	return i;
 }
 
 /*
-Implementa a inclus√£o numa lista linear de aloca√ß√£o sequencial
-do tipo TAluno. Nesta fun√ß√£o se trabalha com uma lista 
-definida como um array de forma est√°tica. Os elementos da lista
-n√£o podem repetir o mesmo atributi chave. 
+Implementa a inclus„o numa lista linear de alocaÁ„o sequencial
+do tipo TAluno. Nesta funÁ„o se trabalha com uma lista
+definida como um array de forma est·tica. Os elementos da lista
+n„o podem repetir o mesmo atributi chave.
 Entrada:
-- aluno: Vari√°vel de tipo TAluno com as informa√ß√µes do elemnto
+- aluno: Vari·vel de tipo TAluno com as informaÁıes do elemnto
     que se deseja incluir na lista;
-- lista: Uma lista sequencial est√°tica na forma de uma refer√™ncia 
-	um array de tipo tAluno. O array permite aloca um elementro a 
-    mais do que a capacidade da lista para permitir um algor√≠tmo de
-    busca mais eficiente; 
-- tam: Tamanho da lista, ou seja os √≠ndices dos elementos da lista
-	v√£o de 0 at√© tam-1; 
-sa√≠da:
-- A fun√ß√£o retorna o verdadeiro caso o aluno seja inclu√≠do na lista
-    e falso caso contr√°rio. Nesta implementa√ß√£o o aluno n√£o sera 
-    inclu√≠do na lista se j√° tiver um elemento na lista com o mesmo
+- lista: Uma lista sequencial est·tica na forma de uma referÍncia
+	um array de tipo tAluno. O array permite aloca um elementro a
+    mais do que a capacidade da lista para permitir um algorÌtmo de
+    busca mais eficiente;
+- tam: Tamanho da lista, ou seja os Ìndices dos elementos da lista
+	v„o de 0 atÈ tam-1;
+saÌda:
+- A funÁ„o retorna o verdadeiro caso o aluno seja incluÌdo na lista
+    e falso caso contr·rio. Nesta implementaÁ„o o aluno n„o sera
+    incluÌdo na lista se j· tiver um elemento na lista com o mesmo
     atributo chave
 */
 int incLisAluno(TAluno aluno, TAluno lista[], int *tam)
-{   
+{
     lista[*tam].numMatricula = aluno.numMatricula;
 	if (buscaLisAluno(lista, *tam, aluno.numMatricula) == *tam){
         strcpy(lista[*tam].nome, aluno.nome);
@@ -97,7 +97,7 @@ void trocaAluno(TAluno *alunoA, TAluno *alunoB){
 }
 
 int incLisAlunoOrd(TAluno aluno, TAluno lista[], int *tam)
-{   
+{
 	int pos = buscaLisAlunoOrd(lista, *tam, aluno.numMatricula);
 	if(lista[pos].numMatricula != aluno.numMatricula){
 		for(int i = *tam; i > pos; i--){
@@ -200,7 +200,7 @@ void geraAlunos(TListAlunos* lista){
 	TAluno aluno;
 	while(lista->tam < lista->cap){
 		//                  ano                       semestre               sequencial
-		matricula = (2000 + rand()%22)*100000 + (1 + rand()%2)*10000 + rand()%10000; 
+		matricula = (2000 + rand()%22)*100000 + (1 + rand()%2)*10000 + rand()%10000;
 		aluno.numMatricula = matricula;
   		strcpy(aluno.nome, "Nome SobrenomeM SobrenomeP");
   		strcpy(aluno.email,"NSmSp@uesc.br");
@@ -251,8 +251,8 @@ void iniFilaAlunos(TFilaAlunos* fila, int cap){
 	fila->fila = (TAluno*) malloc(sizeof(TAluno)*cap);
 }
 
-int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila){	
-	if((fila->fim - fila->ini) < fila->cap){	
+int incAlunoNaFila(TAluno aluno, TFilaAlunos* fila){
+	if((fila->fim - fila->ini) < fila->cap){
 		int pos = fila->fim % fila->cap;
 		fila->fila[pos].numMatricula = aluno.numMatricula;
 		strcpy(fila->fila[pos].nome, aluno.nome);
@@ -282,10 +282,10 @@ int remAlunoDaFila(TAluno* aluno, TFilaAlunos* fila){
 
 // Cria um ponteiro para o TNoAluno
 PNoAluno iniNoAluno(void){
-	PNoAluno no;  								
-    no = (PNoAluno) malloc(sizeof(TNoAluno)); 	
+	PNoAluno no;
+    no = (PNoAluno) malloc(sizeof(TNoAluno));
 	//no->prox = NULL;
-	no->prox = no; 							
+	no->prox = no;
 	return no;
 }
 
@@ -297,31 +297,31 @@ PNoAluno buscaLisEncAluno_(PNoAluno lista, int chave){
 		atual = atual->prox;
 	}
 	//return atual->prox;
-	return atual; 
+	return atual;
 }
 
-//Vers√£o 2 da busca, supondo que a chave faz parte de lista
+//Vers„o 2 da busca, supondo que a chave faz parte de lista
 PNoAluno buscaLisEncAluno(PNoAluno lista, int chave){
 	PNoAluno atual = lista;
 	atual->numMatricula = chave;
 	while(atual->prox->numMatricula != chave){
 		atual = atual->prox;
 	}
-	return atual; 
+	return atual;
 }
 
 int incLisEncAluno(TAluno aluno, PNoAluno lista){
 	PNoAluno pos = buscaLisEncAluno(lista, aluno.numMatricula);
-	if (pos->prox == lista){ 				//o aluno n√£o esta na lista
+	if (pos->prox == lista){ 				//o aluno n„o esta na lista
 		PNoAluno novo = iniNoAluno(); //Criando um novo no
-		novo->numMatricula = aluno.numMatricula; 
+		novo->numMatricula = aluno.numMatricula;
 		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
 		strcpy(novo->email, aluno.email);
 		novo->prox = lista; 				//o novo para lista
-		pos->prox = novo; 					//√∫ltimo aponta para novo
+		pos->prox = novo; 					//˙ltimo aponta para novo
 		return TRUE;
 	}
-	return FALSE; 							//aluno j√° esta na lista
+	return FALSE; 							//aluno j· esta na lista
 }
 
 int remLisEncAluno(TAluno aluno, PNoAluno lista){
@@ -329,10 +329,10 @@ int remLisEncAluno(TAluno aluno, PNoAluno lista){
 	if (pos->prox != lista){ 				//o aluno esta na lista
 		PNoAluno exc = pos->prox; 			//no a ser excluido
 		pos->prox = exc->prox; 				//anterior aponta para proximo
-		free(exc); 							//livera mem√≥ria
+		free(exc); 							//livera memÛria
 		return TRUE;
 	}
-	return FALSE; // aluno n√£o esta na lista
+	return FALSE; // aluno n„o esta na lista
 }
 
 PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
@@ -341,29 +341,29 @@ PNoAluno buscaLisEncAlunoOrd(PNoAluno lista, int chave){
 	while(atual->prox->numMatricula < chave){
 		atual = atual->prox;
 	}
-	return atual; 
+	return atual;
 }
 
 int incLisEncAlunoOrd(TAluno aluno, PNoAluno lista){
 	PNoAluno pos = buscaLisEncAlunoOrd(lista, aluno.numMatricula);
-	if (pos->prox == lista){ 				//o aluno n√£o esta na lista
+	if (pos->prox == lista){ 				//o aluno n„o esta na lista
 		PNoAluno novo = iniNoAluno(); //Criando um novo no
-		novo->numMatricula = aluno.numMatricula; 
+		novo->numMatricula = aluno.numMatricula;
 		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
 		strcpy(novo->email, aluno.email);
 		novo->prox = lista; 				//o novo para lista
-		pos->prox = novo; 					//√∫ltimo aponta para novo
+		pos->prox = novo; 					//˙ltimo aponta para novo
 		return TRUE;
 	}else if(pos->prox->numMatricula != aluno.numMatricula){
 		PNoAluno novo = iniNoAluno(); //Criando um novo no
-		novo->numMatricula = aluno.numMatricula; 
+		novo->numMatricula = aluno.numMatricula;
 		strcpy(novo->nome, aluno.nome); 	//copia aluno para novo
 		strcpy(novo->email, aluno.email);
 		novo->prox = pos->prox;
-		pos->prox = novo; 					//√∫ltimo aponta para novo
+		pos->prox = novo; 					//˙ltimo aponta para novo
 		return TRUE;
 	}
-	return FALSE; 							//aluno j√° esta na lista
+	return FALSE; 							//aluno j· esta na lista
 }
 
 void printLisEncAluno(PNoAluno lista){
@@ -381,11 +381,11 @@ void printLisEncAluno(PNoAluno lista){
 /*
 // Criando uma lista simplesmente encadeada com base numa lista sequencial
 PNoAluno criarListEncDeListSeq(TListAlunos* listaS){
-	PNoAluno listaE, atual; 
+	PNoAluno listaE, atual;
 	listaE = iniListaEncAluno(); 	//Criamos uma lista encadeada vazia
-	if (listaS->tam > 0){ 			// Se a lista seq n√£o estiver vazia 
+	if (listaS->tam > 0){ 			// Se a lista seq n„o estiver vazia
 		atual = listaE;
-		for(int i = 0; i < listaS->tam; i++){ 
+		for(int i = 0; i < listaS->tam; i++){
 			atual->prox = (PNoAluno)malloc(sizeof(TNoAluno));
 			atual = atual->prox;
 			atual->numMatricula = listaS->lista[i].numMatricula;
@@ -394,7 +394,7 @@ PNoAluno criarListEncDeListSeq(TListAlunos* listaS){
 		}
 		atual->prox = listaE;
 	}
-	return listaE;	
+	return listaE;
 }
 
 
@@ -403,66 +403,66 @@ void ini_tListEncAlunos(TListEncAlunos* lista, int eOrd){
 	lista->tam = 0;
 	lista->eOrd = eOrd;
 	lista->lista->numMatricula = 0 ; // Para listas ordenadas
-	lista->lista->prox = lista->lista; // Lista vazia lista.prox = lista 
+	lista->lista->prox = lista->lista; // Lista vazia lista.prox = lista
 }
 */
 
 // Cria um ponteiro para o TNoAluno
 PNoArvAluno iniNoArvAluno(void){
-	PNoArvAluno no;  								
-    no = (PNoArvAluno) malloc(sizeof(TNoArvAluno)); 	
+	PNoArvAluno no;
+    no = (PNoArvAluno) malloc(sizeof(TNoArvAluno));
 	no->esq = NULL;
-	no->dir = NULL;	
-	no->altura = 1; //adicionado altura na fun√ß√£o de criar novo n√≥				
+	no->dir = NULL;
+	no->altura = 1; //adicionado altura na funÁ„o de criar novo nÛ
 	return no;
 }
 
 void cpAlunoNaFolha(TAluno aluno, PNoArvAluno folha){
-	folha->numMatricula = aluno.numMatricula; 
+	folha->numMatricula = aluno.numMatricula;
 	strcpy(folha->nome, aluno.nome); 	//copia aluno para novo
 	strcpy(folha->email, aluno.email);
 	return;
 }
 
 
-/* 
-	Incluir um aluno numa √°rvore bin√°ria de busca
+/*
+	Incluir um aluno numa ·rvore bin·ria de busca
 */
 int incArvAlunoRec(TAluno aluno, PNoArvAluno *raiz){
 	PNoArvAluno folha;
-	if (*raiz == NULL){ // se a √°rvore for vazia
-		// Cria um n√≥ folha
-		folha = iniNoArvAluno();  // verifica√ß√£o de aloca√ß√£o 
-		// Copia as informa√ß√µes do aluno neste n√≥
+	if (*raiz == NULL){ // se a ·rvore for vazia
+		// Cria um nÛ folha
+		folha = iniNoArvAluno();  // verificaÁ„o de alocaÁ„o
+		// Copia as informaÁıes do aluno neste nÛ
 		cpAlunoNaFolha(aluno, folha);
-		// Faz a raiz da √°rvore ser o novo n√≥
+		// Faz a raiz da ·rvore ser o novo nÛ
 		*raiz = folha;
-		return TRUE; // o aluno foi inclu√≠do na √°rvore
-	}else{ // Caso contrario, tem alguma coisa na √°rvore
-		// para simpleifica a nota√ß√£o, copio o endere√ßo do n√≥ raiz
+		return TRUE; // o aluno foi incluÌdo na ·rvore
+	}else{ // Caso contrario, tem alguma coisa na ·rvore
+		// para simpleifica a notaÁ„o, copio o endereÁo do nÛ raiz
 		PNoArvAluno no = *raiz; // para o ponteiro no
-		/* Se a matr√≠cula do aluno que se quer incluir for maior
-		   que a a matr√≠cula da raiz
+		/* Se a matrÌcula do aluno que se quer incluir for maior
+		   que a a matrÌcula da raiz
 		*/
 		if(aluno.numMatricula > no->numMatricula)
-			// incluir na sub√°rvore da direita
+			// incluir na sub·rvore da direita
 			return incArvAlunoRec(aluno, &(no->dir));
-		else // se n√£o
-			/* Se a matr√≠cula do aluno que se quer incluir for
-		       menor que a a matr√≠cula da raiz
+		else // se n„o
+			/* Se a matrÌcula do aluno que se quer incluir for
+		       menor que a a matrÌcula da raiz
 			*/
 			if(aluno.numMatricula < no->numMatricula)
-				// incluir na sub√°rvore da esquerda
+				// incluir na sub·rvore da esquerda
 				return incArvAlunoRec(aluno, &(no->esq));
-			else //Se n√£o
-				/* Ent√£o a matr√≠cula do n√≥ √© igual a dp aluno
+			else //Se n„o
+				/* Ent„o a matrÌcula do nÛ È igual a dp aluno
 				   que se deseja incluir e neste casso retorna
 				*/
-				return FALSE; //O aluno n√£o foi incluido
+				return FALSE; //O aluno n„o foi incluido
 	}
 }
 
-// Vers√£o n√£o recursiva do inclus√£o de um aluno na √°rvore
+// Vers„o n„o recursiva do inclus„o de um aluno na ·rvore
 int incArvAluno(TAluno aluno, PNoArvAluno *raiz){
 	PNoArvAluno atual, folha;
 	if (*raiz == NULL){
@@ -503,23 +503,23 @@ int incArvAluno(TAluno aluno, PNoArvAluno *raiz){
 }
 
 PNoArvAluno buscaArvAlunoRec(PNoArvAluno raiz, int chave){
-	/* Se for uma √°rvores vazia ou se for o n√≥ que estou 
+	/* Se for uma ·rvores vazia ou se for o nÛ que estou
 	   procurado:
 	*/
 	if(raiz == NULL || raiz->numMatricula == chave)
-		return raiz; // Retorna o n√≥
-	/* se n√£o, se a chave que estou procurando for menor
-	   que a chave do n√≥
+		return raiz; // Retorna o nÛ
+	/* se n„o, se a chave que estou procurando for menor
+	   que a chave do nÛ
 	*/
 	else if(chave < raiz->numMatricula)
-		//procura na sub√°rvore da esquerda
+		//procura na sub·rvore da esquerda
 		return buscaArvAlunoRec(raiz->esq, chave);
-	else // Se n√£o, (ent√£o √© maior) 
-	    //procura na sub√°rvore da direita
+	else // Se n„o, (ent„o È maior)
+	    //procura na sub·rvore da direita
 		return buscaArvAlunoRec(raiz->dir, chave);
 }
 
-// Vers√£o n√£o recursiva de busca de um aluno na √°rvore 
+// Vers„o n„o recursiva de busca de um aluno na ·rvore
 PNoArvAluno buscaArvAluno(PNoArvAluno raiz, int chave){
 	PNoArvAluno atual = raiz;
 	while(atual != NULL && atual->numMatricula != chave){
@@ -543,20 +543,20 @@ PNoArvAluno buscaArvAlunoPai(PNoArvAluno raiz, int chave, PNoArvAluno *pai){
 	}
 	return atual;
 }
- 
+
 int remArvAluno(TAluno aluno, PNoArvAluno *raiz){
 	PNoArvAluno pai, no, p, q;
 	no = buscaArvAlunoPai(*raiz, aluno.numMatricula, &pai);
-	if(no==NULL) 
-		return FALSE; // n√£o tem esse chave na √°rvore
+	if(no==NULL)
+		return FALSE; // n„o tem esse chave na ·rvore
 	if(no->esq == NULL || no->dir == NULL){ // se for um no de grau 0 ou 1
 		if(no->esq == NULL){ //grau 1 com subarvore a direita
-			q = no->dir; 
+			q = no->dir;
 		}else{ //grau 0 ou grau 1 com subarvore a esquerda
 			q = no->esq;
 		}
-	}else{  //√© um no de grau 2
-		// procurando o no mais a direita da sub√°rvore da esquerda
+	}else{  //È um no de grau 2
+		// procurando o no mais a direita da sub·rvore da esquerda
 		p = no;
 		q = no->esq;
 		while(q->dir != NULL){
@@ -623,33 +623,33 @@ void printArvAluno(PNoArvAluno raiz, int modo){
 				printf(" ]\n");
 			break;
 	}
-	
+
 
 }
 
 
-//Fun√ß√£o para medir o valor maximo do no
+//FunÁ„o para medir o valor maximo do no
 int maxNoArvAluno(int a, int b){
 	if(a > b)
 		return a;
-	else 
+	else
 		return b;
 }
 
-//Fun√ß√£o para medir a altura da √°rvore
+//FunÁ„o para medir a altura da ·rvore
 int alturaArvAluno(TNoArvAluno *no){
 	if(no == NULL)
 		return 0;
 	return no->altura;
 }
-//Fun√ß√£o para medir o balanceamento da √°rvore
+//FunÁ„o para medir o balanceamento da ·rvore
 int balanArvAluno(TNoArvAluno *no){
 	if(no == NULL)
 		return 0;
 	return alturaArvAluno(no->dir) - alturaArvAluno(no->esq);
 }
 
-//Fun√ß√£o de rota√ß√£o para direita
+//FunÁ„o de rotaÁ„o para direita
 void rotArvDir (TNoArvAluno *no){
 	TNoArvAluno * novoNo = no->esq;
 	TNoArvAluno * aux = novoNo->dir;
@@ -662,7 +662,7 @@ void rotArvDir (TNoArvAluno *no){
 
 }
 
-//Fun√ß√£o de rota√ß√£o para esquerda
+//FunÁ„o de rotaÁ„o para esquerda
 void rotArvEsq (TNoArvAluno *no){
 	TNoArvAluno * novoNo = no->dir;
 	TNoArvAluno * aux = novoNo->esq;
@@ -676,73 +676,73 @@ void rotArvEsq (TNoArvAluno *no){
 }
 
  int incArvAVLAlunoRec(TAluno aluno, PNoArvAluno *raiz){
-	
+
 	PNoArvAluno folha;
 	PNoArvAluno no = *raiz;
-	if (*raiz == NULL){ // se a √°rvore for vazia
-		// Cria um n√≥ folha
-		folha = iniNoArvAluno();  // verifica√ß√£o de aloca√ß√£o 
-		// Copia as informa√ß√µes do aluno neste n√≥
+	if (*raiz == NULL){ // se a ·rvore for vazia
+		// Cria um nÛ folha
+		folha = iniNoArvAluno();  // verificaÁ„o de alocaÁ„o
+		// Copia as informaÁıes do aluno neste nÛ
 		cpAlunoNaFolha(aluno, folha);
-		// Faz a raiz da √°rvore ser o novo n√≥
+		// Faz a raiz da ·rvore ser o novo nÛ
 		*raiz = folha;
-		return TRUE; // o aluno foi inclu√≠do na √°rvore
-		
-	}else{ // Caso contrario, tem alguma coisa na √°rvore
-		// para simpleifica a nota√ß√£o, copio o endere√ßo do n√≥ raiz
+		return TRUE; // o aluno foi incluÌdo na ·rvore
+
+	}else{ // Caso contrario, tem alguma coisa na ·rvore
+		// para simpleifica a notaÁ„o, copio o endereÁo do nÛ raiz
 
 		if(aluno.numMatricula > no->numMatricula)
-			// incluir na sub√°rvore da direita
+			// incluir na sub·rvore da direita
 			return incArvAlunoRec(aluno, &(no->dir));
-		else // se n√£o
-			/* Se a matr√≠cula do aluno que se quer incluir for
-		       menor que a a matr√≠cula da raiz
+		else // se n„o
+			/* Se a matrÌcula do aluno que se quer incluir for
+		       menor que a a matrÌcula da raiz
 			*/
 			if(aluno.numMatricula < no->numMatricula)
-				// incluir na sub√°rvore da esquerda
+				// incluir na sub·rvore da esquerda
 				return incArvAlunoRec(aluno, &(no->esq));
-			else //Se n√£o
-				/* Ent√£o a matr√≠cula do n√≥ √© igual a dp aluno
+			else //Se n„o
+				/* Ent„o a matrÌcula do nÛ È igual a dp aluno
 				   que se deseja incluir e neste casso retorna
 				*/
-				return FALSE; //O aluno n√£o foi incluido
+				return FALSE; //O aluno n„o foi incluido
 	}
 
-	no->altura = maxNoArvAluno(alturaArvAluno(no->dir) , alturaArvAluno(no->esq))+1; //Para atualizar a altura da √°rvore
+	no->altura = maxNoArvAluno(alturaArvAluno(no->dir) , alturaArvAluno(no->esq))+1; //Para atualizar a altura da ·rvore
 
 	int fatorB = balanArvAluno(no); // Para medir o fator de balanceamento do novo no
-	
-	/*Situa√ß√£o Esquerda-Esquerda*/
+
+	/*SituaÁ„o Esquerda-Esquerda*/
 	if(fatorB < -1 && aluno.numMatricula < no->esq->numMatricula)
 		rotArvDir(no);
-	/*Situa√ß√£o Direita-Direita*/
+	/*SituaÁ„o Direita-Direita*/
 	if(fatorB > 1 && aluno.numMatricula > no->dir->numMatricula)
 		rotArvEsq(no);
-	/*Situa√ß√£o Esquerda-Direita*/
+	/*SituaÁ„o Esquerda-Direita*/
 	if(fatorB < -1 && aluno.numMatricula > no->esq->numMatricula){
 		rotArvEsq(no->esq);
 		rotArvDir(no);
 	}
-	/*Situa√ß√£o Direita-Esquerda*/
+	/*SituaÁ„o Direita-Esquerda*/
 	if(fatorB > 1 && aluno.numMatricula < no->dir->numMatricula){
 		rotArvDir(no->dir);
 		rotArvEsq(no);
 	}
-} 
+}
 
 int remArvAVLAluno(TAluno aluno, PNoArvAluno *raiz){
 	PNoArvAluno pai, no, p, q;
 	no = buscaArvAlunoPai(*raiz, aluno.numMatricula, &pai);
-	if(no==NULL) 
-		return FALSE; // n√£o tem esse chave na √°rvore
+	if(no==NULL)
+		return FALSE; // n„o tem esse chave na ·rvore
 	if(no->esq == NULL || no->dir == NULL){ // se for um no de grau 0 ou 1
 		if(no->esq == NULL){ //grau 1 com subarvore a direita
-			q = no->dir; 
+			q = no->dir;
 		}else{ //grau 0 ou grau 1 com subarvore a esquerda
 			q = no->esq;
 		}
-	}else{  //√© um no de grau 2
-		// procurando o no mais a direita da sub√°rvore da esquerda
+	}else{  //È um no de grau 2
+		// procurando o no mais a direita da sub·rvore da esquerda
 		p = no;
 		q = no->esq;
 		while(q->dir != NULL){
