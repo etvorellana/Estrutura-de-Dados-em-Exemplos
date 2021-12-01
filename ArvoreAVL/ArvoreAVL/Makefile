@@ -15,4 +15,3 @@ ferramentas.o: ferramentas.c
 clean: 
 	rm *.o
 	rm testando
-
